@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>保険証情報変更</title>
+    <link rel="stylesheet" href="../css/Patient_change.css">
+    <link rel="stylesheet" href="../css/home_link.css">
+</head>
+<body>
+    <div class="container">
+    <h1>保険証情報の変更</h1>
+    <form id="insuranceForm">
+        <label for="firstName">姓:</label>
+        <input type="text" id="firstName" name="firstName" required>
+
+        <label for="lastName">名:</label>
+        <input type="text" id="lastName" name="lastName" required>
+
+        <label for="policyNumber">保険証番号:</label>
+        <input type="text" id="policyNumber" name="policyNumber" required>
+
+        <label for="change_detail">変更内容:</label>
+        <input type="text" id="change_detail" name="change_detail" required>
+
+        <button type="submit">変更を保存</button>
+    </form>
+    <a href="../index/index_reception.html" class="home-link">受付ホームに戻る</a>
+</div>
+</body>
+</html>

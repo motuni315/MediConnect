@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>パスワード変更</title>
+    <link rel="stylesheet" href="../css/pass_change.css">
+    <link rel="stylesheet" href="../css/home_link.css">
+</head>
+<body>
+    <div class="container">
+        <h2>パスワード変更</h2>
+        <form action="#" method="post" onsubmit="return validateForm()">
+            従業員ID:　　<br><br>
+            <label for="current_password">現在のパスワード:</label>
+            <input type="password" id="current_password" name="current_password" required><br><br>
+            <label for="new_password">新しいパスワード:</label>
+            <input type="password" id="new_password" name="new_password" required><br><br>
+            <label for="confirm_password">新しいパスワード（確認）:</label>
+            <input type="password" id="confirm_password" name="confirm_password" required><br><br>
+            <button type="submit">変更</button>
+        </form>
+        <a href="../index/index_admin.html" class="home-link">管理者ホームに戻る</a>
+    </div>
+
+<script>
+        function validateForm() {
+            var newPassword = document.getElementById("new_password").value;
+            var confirmPassword = document.getElementById("confirm_password").value;
+            if (newPassword !== confirmPassword) {
+                alert("新しいパスワードと確認用のパスワードが一致しません。");
+                return false;
+            }
+            return true;
+        }
+    </script>
+</body>
+</html>

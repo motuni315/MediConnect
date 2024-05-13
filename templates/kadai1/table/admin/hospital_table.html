@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>他病院一覧</title>
+    <link rel="stylesheet" href="../../css/hospital_table.css">
+    <link rel="stylesheet" href="../../css/home_link.css">
+</head>
+<body>
+    <div class="container">
+        <h1>他病院一覧</h1>
+        <div class="search-container">
+            <label for="capital-input">資本金で検索:</label>
+            <input type="text" id="capital-input" placeholder="資本金を入力">
+            <button onclick="searchByCapital()">検索</button>
+        </div>
+            <table border="1">
+            <thead>
+                <tr>
+                    <th>病院名</th>
+                    <th>電話番号</th>
+                    <th>住所</th>
+                    <th>資本金</th>
+                </tr>
+
+
+            </thead>
+            <tbody id="hospital-list">
+                <!-- ここにデータベースから読み込んだ病院データが表示されます -->
+                <tr>
+                    <td>広島市民病院</td>
+                    <td>082-~~~-~~~~<button class="change-button">変更</button></td>
+                    <td>〒730-8518 広島県広島市中区基町７−３３</td>
+                    <td>うんびゃくおく</td>
+                </tr>
+            </tbody>
+        </table>
+        <p>一覧表示される</p>
+        <a href="../../index/index_admin.html" class="home-link">管理者ホームに戻る</a>
+    </div>
+</body>
+</html>

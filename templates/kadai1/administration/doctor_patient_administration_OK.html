@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>薬投与確定</title>
+    <link rel="stylesheet" href="../css/administration.css">
+    <link rel="stylesheet" href="../css/home_link.css">
+</head>
+<body>
+    <div class="container">
+        <h1>薬投与確定</h1>
+        <h2>薬の投与変更が確定しました。</h2>
+
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>患者名</th>
+                    <th>薬剤名</th>
+                    <th>変更日</th>
+
+                </tr>
+
+
+            </thead>
+            <tbody id="hospital-list">
+                <!-- ここにデータベースから読み込んだ病院データが表示されます -->
+                <tr>
+                    <td>倉崎翔陽</td>
+                    <td>ロキソニン<br>
+                    カロナール</td>
+                    <td>2024/05/09</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <button class="administration" >患者検索に戻る</button>
+        <a href="../index/index_doctor.html" class="home-link">医師ホームに戻る</a>
+    </div>
+</body>
+</html>

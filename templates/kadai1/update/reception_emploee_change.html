@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>従業員情報変更</title>
+    <link rel="stylesheet" href="../css/emploee_change.css">
+    <link rel="stylesheet" href="../css/home_link.css">
+</head>
+<body>
+    <div class="container">
+        <h2>従業員情報変更</h2>
+        <form id="employeeForm">
+            <label for="employeeID">従業員名:</label>
+            <input type="text" id="employeeName" name="employeeName" required>
+            <label for="current_password">現在のパスワード:</label>
+            <input type="password" id="current_password" name="current_password" required>
+            <label for="new_password">新しいパスワード:</label>
+            <input type="password" id="new_password" name="new_password" required>
+            <label for="confirm_password">新しいパスワード（確認）:</label>
+            <input type="password" id="confirm_password" name="confirm_password" required>
+
+            <button type="submit">変更</button>
+            <a href="../index/index_reception.html" class="home-link">受付ホームに戻る</a>
+        </form>
+    </div>
+</body>
+</html>
