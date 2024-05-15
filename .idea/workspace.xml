@@ -4,10 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="534aadea-d5c4-429a-abca-55e0a1c7a8cc" name="変更" comment="adminログインできるようになる">
-      <change afterPath="$PROJECT_DIR$/templates/kadai1/login/loginError.html" afterDir="false" />
+    <list default="true" id="534aadea-d5c4-429a-abca-55e0a1c7a8cc" name="変更" comment="ログインエラー">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kadai1/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/kadai1/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kadai1/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/kadai1/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/kadai1/index/index_admin.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/kadai1/index/index_admin.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/kadai1/register/admin/emploee_register.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/kadai1/register/admin/emploee_register.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/kadai1/register/admin/emploee_register_confirm.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/kadai1/register/admin/emploee_register_confirm.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -126,7 +129,9 @@
       <workItem from="1715667029645" duration="5000" />
       <workItem from="1715667065722" duration="1048000" />
       <workItem from="1715668128466" duration="6503000" />
-      <workItem from="1715741978558" duration="618000" />
+      <workItem from="1715741978558" duration="3049000" />
+      <workItem from="1715749303428" duration="24000" />
+      <workItem from="1715749366447" duration="3299000" />
     </task>
     <task id="LOCAL-00001" summary="初期設定">
       <option name="closed" value="true" />
@@ -176,7 +181,15 @@
       <option name="project" value="LOCAL" />
       <updated>1715733900633</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="ログインエラー">
+      <option name="closed" value="true" />
+      <created>1715742653083</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1715742653083</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -199,6 +212,7 @@
     <MESSAGE value="ログイン画面" />
     <MESSAGE value="データベース接続" />
     <MESSAGE value="adminログインできるようになる" />
-    <option name="LAST_COMMIT_MESSAGE" value="adminログインできるようになる" />
+    <MESSAGE value="ログインエラー" />
+    <option name="LAST_COMMIT_MESSAGE" value="ログインエラー" />
   </component>
 </project>
