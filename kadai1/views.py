@@ -27,5 +27,5 @@ def index(request):
             return render(request, '../templates/kadai1/index/index_reception.html')
 
     except Employee.DoesNotExist:
-        messages.error(request, 'Invalid credentials. Please try again.')
-    return render(request, '../templates/kadai1/login/login.html')
+        return render(request, '../templates/kadai1/login/loginError.html')
+
