@@ -1,21 +1,31 @@
-from django. shortcuts import render ,redirect
+from django.contrib import messages
+from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
+
+from kadai1.models import Employee
 
 
 def login(request):
-    return render(request,'../templates/kadai1/login/login.html')
+    return render(request, '../templates/kadai1/login/login.html')
+
 
 def index(request):
-    print(request)
     if request.method == "POST":
         userID = request.POST['userID']
-        print(userID)
         password = request.POST['password']
+        request.session['userID'] = userID
 
-        if userID == "admin":
-            return render(request,'../templates/kadai1/index/index_admin.html')
-        elif userID == "reception":
-            return render(request,'../templates/kadai1/index/index_reception.html')
-        elif userID == "doctor":
-            return render(request,'../templates/kadai1/index/index_doctor.html')
+    try:
+        emp_info = Employee.objects.get(empid=userID, emppasswd=password)
+        request.session['emp_role'] = emp_info.emprole
+        print(userID + password)
+        if emp_info.emprole == 0:
+            return render(request, '../templates/kadai1/index/index_admin.html')
+        elif emp_info.emprole == 1:
+            return render(request, '../templates/kadai1/index/index_doctor.html')
+        elif emp_info.emprole == 2:
+            return render(request, '../templates/kadai1/index/index_reception.html')
 
+    except Employee.DoesNotExist:
+        messages.error(request, 'Invalid credentials. Please try again.')
+    return render(request, '../templates/kadai1/login/login.html')
