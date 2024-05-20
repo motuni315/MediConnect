@@ -146,3 +146,17 @@ def phone_change(request):
         except Tabyouin.DoesNotExist:
             return HttpResponse("指定された病院IDが見つかりません。")
 
+
+def hospital_list(request):
+    query = request.GET.get('capital')
+    if query:
+        try:
+            capital_value = int(query)
+            hospitals = Tabyouin.objects.filter(tabyouinshihonkin__gte=capital_value)
+        except ValueError:
+            hospitals = Tabyouin.objects.none()
+    else:
+        hospitals = Tabyouin.objects.all()
+
+    context = {'hospitals': hospitals}
+    return render(request, 'kadai1/table/admin/hospital_table.html', context)
