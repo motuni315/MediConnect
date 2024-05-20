@@ -18,26 +18,40 @@
             <table border="1">
             <thead>
                 <tr>
+                    <th>病院ID</th>
                     <th>病院名</th>
-                    <th>電話番号</th>
                     <th>住所</th>
+                    <th>電話番号</th>
                     <th>資本金</th>
+                    <th>救急対応</th>
                 </tr>
 
 
             </thead>
             <tbody id="hospital-list">
+            {% for hospital in hospitals %}
                 <!-- ここにデータベースから読み込んだ病院データが表示されます -->
                 <tr>
-                    <td>広島市民病院</td>
-                    <td>082-~~~-~~~~<button class="change-button">変更</button></td>
-                    <td>〒730-8518 広島県広島市中区基町７−３３</td>
-                    <td>うんびゃくおく</td>
+                    
+                        <td>{{ hospital.tabyouinid }}</td>
+                        <td>{{ hospital.tabyouinmei }}</td>
+                        <td>{{ hospital.tabyouinaddres }}</td>
+                        <td>
+                            {{ hospital.tabyouintel }}
+                            <form action="{% url 'phone_change' %}" >
+                                {% csrf_token %}
+                                <button>変更</button>
+                                <input type="hidden" name="tabyouinid" value="{{ hospital.tabyouinid }}">
+                                <input type="hidden" name="tabyouintel" value="{{ hospital.tabyouintel }}">
+                            </form> </td>
+                        <td>{{ hospital.tabyouinshihonkin }}</td>
+                        <td>{{ hospital.kyukyu }}</td>
+                    
                 </tr>
+            {% endfor %}
             </tbody>
         </table>
-        <p>一覧表示される</p>
-        <a href="../../index/index_admin.html" class="home-link">管理者ホームに戻る</a>
+        <a href="{% url 'index' %}" class="home-link">管理者ホームに戻る</a>
     </div>
 </body>
 </html>

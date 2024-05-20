@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 
-from kadai1.models import Employee
+from kadai1.models import Employee, Tabyouin
 
 
 def login(request):
@@ -15,14 +15,22 @@ def index(request):
     if request.method == "GET":
         userID = request.session.get('userID')
 
+        emp_info = Employee.objects.get(empid=userID)
+
+        if emp_info.emprole == 0:
+            return render(request, '../templates/kadai1/index/index_admin.html')
+        elif emp_info.emprole == 1:
+            return render(request, '../templates/kadai1/index/index_doctor.html')
+        elif emp_info.emprole == 2:
+            return render(request, '../templates/kadai1/index/index_reception.html')
+
     if request.method == "POST":
         userID = request.POST['userID']
         password = request.POST['password']
         request.session['userID'] = userID
 
     try:
-        emp_info = Employee.objects.get(empid=userID)
-        request.session['emp_role'] = emp_info.emprole
+        emp_info = Employee.objects.get(empid=userID,emppasswd=password)
 
         if emp_info.emprole == 0:
             return render(request, '../templates/kadai1/index/index_admin.html')
@@ -88,6 +96,10 @@ def admin_table(request):
     employees = Employee.objects.all()
     return render(request, '../templates/kadai1/table/admin/employee_table.html', {'employees': employees})
 
+def hospital_table(request):
+    hospitals = Tabyouin.objects.all()
+    return render(request,'kadai1/table/admin/hospital_table.html', {'hospitals': hospitals})
+
 
 def emp_passChange(request):
     if request.method == 'GET':
@@ -114,5 +126,23 @@ def emp_passChange(request):
                 return HttpResponse("指定された従業員IDが見つかりません。")
         else:
             return HttpResponse("新しいパスワードと確認用のパスワードが一致しません。")
-    else:
-        return render(request, 'kadai1/OK.html')
+
+def phone_change(request):
+    if request.method == 'GET':
+        tabyouinid = request.GET['tabyouinid']
+        tabyouintel = request.GET['tabyouintel']
+        return render(request, 'kadai1/update/phone_change.html', {'tabyouinid': tabyouinid,'tabyouintel':tabyouintel})
+
+    if request.method == "POST":
+        hospital_id = request.POST.get('tabyouinid')
+        hospital_phone = request.POST.get('newPhoneNumber')
+
+        try:
+            hospital = Tabyouin.objects.get(tabyouinid=hospital_id)
+
+            hospital.tabyouintel = hospital_phone
+            hospital.save()
+            return render(request, 'kadai1/OK.html')
+        except Tabyouin.DoesNotExist:
+            return HttpResponse("指定された病院IDが見つかりません。")
+
