@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>従業員登録確認</title>
+  <link rel="stylesheet" href="../../register/register.css">
+</head>
+<body>
+  <div class="container">
+    <h2>従業員登録確認</h2>
+      <div class="confirmation">
+        <div class="confirmation-info">
+            <p><strong>ユーザーID：</strong>{{ userid }}</p>
+          <p><strong>姓:</strong> {{ surname }}</p>
+          <p><strong>名:</strong> {{ first_name }}</p>
+          <p><strong>パスワード:</strong> {{ password }}</p>
+          <p><strong>役職:</strong> {% if position == 0 %} 管理者 
+                                    {% elif position == 1 %} 医師 
+                                    {% else %} 受付 {% endif %}</p>
+        </div>
+        <div class="confirmation-buttons">
+            <form method="post" action="{% url 'confilm_register' %}">
+                {% csrf_token %}
+                <input type="hidden" name="userid" value="{{ userid }}">
+                <input type="hidden" name="surname" value="{{ surname }}">
+                <input type="hidden" name="first_name" value="{{ first_name }}">
+                <input type="hidden" name="password" value="{{ password }}">
+                <input type="hidden" name="position" value="{{ position }}">
+                <button type="submit" name="register">登録</button>
+            </form>
+            <form method="get" action="{% url 'register' %}">
+                <button type="submit" name="modify">修正</button>
+            </form>
+        </div>
+      </div>
+  </div>
+</body>
+</html>
