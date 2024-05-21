@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.http import HttpResponse
 from django.shortcuts import render
 
@@ -6,6 +7,7 @@ from kadai1.models import Employee, Tabyouin
 
 def login(request):
     return render(request, '../templates/kadai1/L100/login.html')
+
 
 def logout(request):
     return render(request, '../templates/kadai1/L100/login.html')
@@ -30,7 +32,7 @@ def index(request):
         request.session['userID'] = userID
 
     try:
-        emp_info = Employee.objects.get(empid=userID,emppasswd=password)
+        emp_info = Employee.objects.get(empid=userID, emppasswd=password)
 
         if emp_info.emprole == 0:
             return render(request, '../templates/kadai1/index/index_admin.html')
@@ -45,7 +47,7 @@ def index(request):
 
 def register(request):
     if request.method == 'GET':
-        return render(request, '../templates/kadai1/admin/E100/emploee_register.html')
+        return render(request, '../templates/kadai1/admin/E101/emploee_register.html')
     if request.method == 'POST':
 
         # フォームから送信されたデータを取得
@@ -68,10 +70,10 @@ def register(request):
         if Employee.objects.filter(empid=empid).exists():
             return HttpResponse('IDが一致しています')
 
-        return render(request, '../templates/kadai1/admin/E100/emploee_register_confirm.html', context)
+        return render(request, '../templates/kadai1/admin/E101/emploee_register_confirm.html', context)
     else:
         # GETリクエストの場合は登録フォームを表示
-        return render(request, '../templates/kadai1/admin/E100/emploee_register.html')
+        return render(request, '../templates/kadai1/admin/E101/emploee_register.html')
 
 
 def confilm_register(request):
@@ -89,23 +91,24 @@ def confilm_register(request):
         emprole=position
     )
 
-    return render(request,'kadai1/OK.html')
+    return render(request, 'kadai1/OK.html')
 
 
 def admin_table(request):
     employees = Employee.objects.all()
-    return render(request, '../templates/kadai1/table/admin/employee_table.html', {'employees': employees})
+    return render(request, '../templates/kadai1/admin/E103/employee_table.html', {'employees': employees})
+
 
 def hospital_table(request):
     hospitals = Tabyouin.objects.all()
-    return render(request,'kadai1/table/admin/hospital_table.html', {'hospitals': hospitals})
+    return render(request, '../templates/kadai1/H100/hospital_table.html', {'hospitals': hospitals})
 
 
 def emp_passChange(request):
     if request.method == 'GET':
         empid = request.GET['empid']
         emppasswd = request.GET['emppasswd']
-        return render(request, 'kadai1/admin/E103/employee_passchange.html',{'empid': empid,'emppasswd':emppasswd})
+        return render(request, 'kadai1/admin/E103/employee_passchange.html', {'empid': empid, 'emppasswd': emppasswd})
 
     if request.method == 'POST':
         # POSTリクエストから新しいパスワードを取得
@@ -127,11 +130,13 @@ def emp_passChange(request):
         else:
             return HttpResponse("新しいパスワードと確認用のパスワードが一致しません。")
 
+
 def phone_change(request):
     if request.method == 'GET':
         tabyouinid = request.GET['tabyouinid']
         tabyouintel = request.GET['tabyouintel']
-        return render(request, 'kadai1/update/phone_change.html', {'tabyouinid': tabyouinid,'tabyouintel':tabyouintel})
+        return render(request, 'kadai1/update/phone_change.html',
+                      {'tabyouinid': tabyouinid, 'tabyouintel': tabyouintel})
 
     if request.method == "POST":
         hospital_id = request.POST.get('tabyouinid')
@@ -159,4 +164,17 @@ def hospital_list(request):
         hospitals = Tabyouin.objects.all()
 
     context = {'hospitals': hospitals}
-    return render(request, 'kadai1/table/admin/hospital_table.html', context)
+    return render(request, '../templates/kadai1/H100/hospital_table.html', context)
+
+
+def employee_list(request):
+    employee = request.GET.get('employee')
+    if employee:
+        try:
+            emp_info = Employee.objects.filter(empid=employee)
+        except ValueError:
+            emp_info = Employee.objects.all()
+    else:
+        emp_info = Employee.objects.all()
+    context = {'employees': emp_info}
+    return render(request, 'kadai1/admin/E103/employee_table.html', context)

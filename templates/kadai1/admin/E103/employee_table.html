@@ -4,12 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>従業員一覧</title>
-    <link rel="stylesheet" href="emploee_table.css">
+    <link rel="stylesheet" href="../../css/emploee_table.css">
     <link rel="stylesheet" href="../../css/home_link.css">
 </head>
 <body>
     <div class="container">
         <h1>従業員一覧</h1>
+    <div class="search-container">
+            <form method="get" action="{% url 'employee_list' %}">
+                <label for="employee_search">従業員検索:</label>
+                <input type="text" id="employee_search" name="employee" placeholder="従業員IDを入力">
+                <button>検索</button>
+            </form>
+        </div>
 
             <table border="1">
             <thead>
