@@ -10,6 +10,7 @@ def login(request):
 
 
 def logout(request):
+    request.session.flush()
     return render(request, '../templates/kadai1/L100/login.html')
 
 
@@ -30,9 +31,9 @@ def index(request):
         userID = request.POST['userID']
         password = request.POST['password']
         request.session['userID'] = userID
-
-    try:
         emp_info = Employee.objects.get(empid=userID, emppasswd=password)
+        request.session['emprole'] = emp_info.emprole
+    try:
 
         if emp_info.emprole == 0:
             return render(request, '../templates/kadai1/index/index_admin.html')
@@ -50,30 +51,26 @@ def register(request):
         return render(request, '../templates/kadai1/admin/E101/emploee_register.html')
     if request.method == 'POST':
 
-        # フォームから送信されたデータを取得
-        empid = request.POST['userid']
-        empsname = request.POST['surname']
-        empfname = request.POST['first-name']
-        emppassword = request.POST['password']
-        empposition = request.POST['position']
+            # フォームから送信されたデータを取得
+            empid = request.POST['userid']
+            empsname = request.POST['surname']
+            empfname = request.POST['first-name']
+            emppassword = request.POST['password']
+            empposition = request.POST['position']
 
-        print(empid, empsname, empfname, emppassword, empposition)
+            context = {
+                'userid': empid,
+                'surname': empsname,
+                'first_name': empfname,
+                'password': emppassword,
+                'position': empposition,
+            }
 
-        context = {
-            'userid': empid,
-            'surname': empsname,
-            'first_name': empfname,
-            'password': emppassword,
-            'position': empposition,
-        }
+            if Employee.objects.filter(empid=empid).exists():
+                return HttpResponse('IDが一致しています')
 
-        if Employee.objects.filter(empid=empid).exists():
-            return HttpResponse('IDが一致しています')
+            return render(request, '../templates/kadai1/admin/E101/emploee_register_confirm.html', context)
 
-        return render(request, '../templates/kadai1/admin/E101/emploee_register_confirm.html', context)
-    else:
-        # GETリクエストの場合は登録フォームを表示
-        return render(request, '../templates/kadai1/admin/E101/emploee_register.html')
 
 
 def confilm_register(request):
@@ -101,34 +98,47 @@ def admin_table(request):
 
 def hospital_table(request):
     hospitals = Tabyouin.objects.all()
-    return render(request, '../templates/kadai1/H100/hospital_table.html', {'hospitals': hospitals})
+    return render(request, '../templates/kadai1/admin/H100/hospital_table.html', {'hospitals': hospitals})
 
 
 def emp_passChange(request):
     if request.method == 'GET':
-        empid = request.GET['empid']
-        emppasswd = request.GET['emppasswd']
-        return render(request, 'kadai1/admin/E103/employee_passchange.html', {'empid': empid, 'emppasswd': emppasswd})
+        emprole = request.session['emprole']
+
+        if emprole == 0:
+            empid = request.GET['empid']
+            emppasswd = request.GET['emppasswd']
+            return render(request, 'kadai1/admin/E103/employee_passchange.html', {'empid': empid, 'emppasswd': emppasswd})
+        else:
+            empid = request.session.get('userID')
+            emp_info = Employee.objects.get(empid=empid)
+            emppasswd = emp_info.emppasswd
+
+            return render(request,'kadai1/reception/reception_emploee_change.html',{'empid': empid, 'emppasswd': emppasswd})
 
     if request.method == 'POST':
         # POSTリクエストから新しいパスワードを取得
-        new_password = request.POST.get('new_password')
-        confirm_password = request.POST.get('confirm_password')
-        empid = request.POST.get('empid')  # 従業員IDを取得する必要があります
 
-        # 新しいパスワードと確認用のパスワードが一致するか確認
-        if new_password == confirm_password:
-            try:
-                # 従業員IDに基づいて従業員情報を取得
-                employee = Employee.objects.get(empid=empid)
-                # パスワードを更新
-                employee.emppasswd = new_password
-                employee.save()  # データベースに保存
-                return render(request, 'kadai1/OK.html')
-            except Employee.DoesNotExist:
-                return HttpResponse("指定された従業員IDが見つかりません。")
-        else:
-            return HttpResponse("新しいパスワードと確認用のパスワードが一致しません。")
+
+            new_password = request.POST.get('new_password')
+            confirm_password = request.POST.get('confirm_password')
+            empid = request.POST.get('empid')  # 従業員IDを取得する必要があります
+
+            # 新しいパスワードと確認用のパスワードが一致するか確認
+            if new_password == confirm_password:
+                try:
+                    # 従業員IDに基づいて従業員情報を取得
+                    employee = Employee.objects.get(empid=empid)
+                    # パスワードを更新
+                    employee.emppasswd = new_password
+                    employee.save()  # データベースに保存
+                    return render(request, 'kadai1/OK.html')
+                except Employee.DoesNotExist:
+                    return HttpResponse("指定された従業員IDが見つかりません。")
+            else:
+                return HttpResponse("新しいパスワードと確認用のパスワードが一致しません。")
+
+
 
 
 def phone_change(request):
@@ -164,7 +174,7 @@ def hospital_list(request):
         hospitals = Tabyouin.objects.all()
 
     context = {'hospitals': hospitals}
-    return render(request, '../templates/kadai1/H100/hospital_table.html', context)
+    return render(request, '../templates/kadai1/admin/H100/hospital_table.html', context)
 
 
 def employee_list(request):

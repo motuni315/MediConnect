@@ -9,7 +9,7 @@
 </head>
 <body>
     <div class="container">
-        <h2>管理者用パスワード変更</h2>
+        <h2>従業員用パスワード変更</h2>
         <form action="{% url 'emp_passChange' %}" method="post">
             {% csrf_token %}
             従業員ID:　　{{ empid }}<br><br>
@@ -22,7 +22,7 @@
             <button type="submit">変更</button>
             <input type="hidden" name="empid" value="{{ empid }}">
         </form>
-        <a href="{% url 'admin_table' %}" class="home-link">従業員一覧に戻る</a>
+        <a href="#" class="home-link">受付ホームに戻る</a>
     </div>
 
 
