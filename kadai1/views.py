@@ -50,7 +50,6 @@ def employee_register(request):
         return render(request, '../templates/kadai1/admin/E101/emploee_register.html')
     if request.method == 'POST':
 
-
         # フォームから送信されたデータを取得
         empid = request.POST['userid']
         empsname = request.POST['surname']
@@ -59,18 +58,17 @@ def employee_register(request):
         empposition = request.POST['position']
 
         context = {
-                'userid': empid,
-                'surname': empsname,
-                'first_name': empfname,
-                'password': emppassword,
-                'position': empposition,
-            }
+            'userid': empid,
+            'surname': empsname,
+            'first_name': empfname,
+            'password': emppassword,
+            'position': empposition,
+        }
 
         if Employee.objects.filter(empid=empid).exists():
             return HttpResponse('IDが一致しています')
 
         return render(request, '../templates/kadai1/admin/E101/emploee_register_confirm.html', context)
-
 
 
 def confilm_register(request):
@@ -117,9 +115,10 @@ def hospital_table(request):
     hospitals = Tabyouin.objects.all()
     return render(request, '../templates/kadai1/admin/H100/hospital_table.html', {'hospitals': hospitals})
 
+
 def patient_table(request):
     patients = Patient.objects.all()
-    return render(request,'kadai1/reception/P103/patient_table.html',{'patients': patients})
+    return render(request, 'kadai1/reception/P103/patient_table.html', {'patients': patients})
 
 
 def emp_passChange(request):
@@ -165,7 +164,7 @@ def phone_change(request):
     if request.method == 'GET':
         tabyouinid = request.GET['tabyouinid']
         tabyouintel = request.GET['tabyouintel']
-        return render(request, 'kadai1/update/phone_change.html',
+        return render(request, 'kadai1/admin/H105/phone_change.html',
                       {'tabyouinid': tabyouinid, 'tabyouintel': tabyouintel})
 
     if request.method == "POST":
@@ -209,6 +208,7 @@ def employee_list(request):
     context = {'employees': emp_info}
     return render(request, 'kadai1/admin/E103/employee_table.html', context)
 
+
 def patient_search(request):
     patient = request.GET.get('patient')
     if patient:
@@ -217,6 +217,7 @@ def patient_search(request):
         patients = Patient.objects.none()  # クエリがない場合は空のクエリセットを返す
 
     return render(request, 'kadai1/reception/P103/patient_table.html', {'patients': patients})
+
 
 def patient_register(request):
     if request.method == 'GET':
@@ -240,3 +241,46 @@ def patient_register(request):
             return HttpResponse('IDが一致しています')
 
         return render(request, 'kadai1/reception/P101/patient_register_confirm.html', context)
+
+
+def insurance_change(request):
+    if request.method == 'GET':
+        patid = request.GET.get('patid')
+        hokenmei = request.GET.get('hokenmei')
+        hokenexp = request.GET.get('hokenexp')
+        check = request.GET.get('check')
+
+        check = int(check)
+
+        context = {
+            'patid': patid,
+            'hokenmei': hokenmei,
+            'hokenexp': hokenexp,
+            'check': check
+        }
+        return render(request, 'kadai1/reception/P104/insurance_change.html',context)
+    elif request.method == 'POST':
+        patid = request.POST.get('patid')
+        new_hokenmei = request.POST.get('new_hokenmei')
+        new_hokenexp = request.POST.get('new_hokenexp')
+
+
+        if new_hokenmei:
+            try:
+                patient = Patient.objects.get(patid=patid)
+                patient.hokenmei = new_hokenmei
+                patient.save()
+                return render(request,'kadai1/OK.html')
+            except Patient.DoesNotExist:
+                return HttpResponse('IDが見つかりません')
+
+        elif new_hokenexp:
+            try:
+                patient = Patient.objects.get(patid=patid)
+                patient.hokenexp = new_hokenexp
+                patient.save()
+                return render(request,'kadai1/OK.html')
+            except Patient.DoesNotExist:
+                return HttpResponse('IDが見つかりません')
+
+

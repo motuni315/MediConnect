@@ -35,14 +35,25 @@
                     <td>{{ patient.patfname }}</td>
                     <td>{{ patient.patlname }}</td>
                     <td>{{ patient.hokenmei }}
-                        <form method="get" action="#">
+                        <form method="get" action="{% url 'insurance_change' %}">
+                            {% csrf_token %}
                             <button class="change-button">変更</button>
                             <input type="hidden" name="patid" value="{{ patient.patid }}">
                             <input type="hidden" name="hokenmei" value="{{ patient.hokenmei }}">
+                            <input type="hidden" name="hokenexp" value="{{ patient.hokenexp }}">
+                            <input type="hidden" name="check" value=0>
                         </form>  
                     </td>
                     <td>
                         {{ patient.hokenexp }}
+                        <form method="get" action="{% url 'insurance_change' %}">
+                            {% csrf_token %}
+                            <button class="change-button">変更</button>
+                            <input type="hidden" name="patid" value="{{ patient.patid }}">
+                            <input type="hidden" name="hokenmei" value="{{ patient.hokenmei }}">
+                            <input type="hidden" name="hokenexp" value="{{ patient.hokenexp }}">
+                            <input type="hidden" name="check" value=1>
+                        </form> 
                     </td>
                 </tr>
                 {% endfor %}

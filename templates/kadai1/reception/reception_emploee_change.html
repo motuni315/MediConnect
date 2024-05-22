@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>パスワード変更</title>
-    <link rel="stylesheet" href="../../css/pass_change.css">
-    <link rel="stylesheet" href="../../css/home_link.css">
+    <link rel="stylesheet" href="../css/pass_change.css">
+    <link rel="stylesheet" href="../css/home_link.css">
 </head>
 <body>
     <div class="container">
@@ -22,7 +22,7 @@
             <button type="submit">変更</button>
             <input type="hidden" name="empid" value="{{ empid }}">
         </form>
-        <a href="#" class="home-link">受付ホームに戻る</a>
+        <a href="{% url 'index' %}" class="home-link">受付ホームに戻る</a>
     </div>
 
 

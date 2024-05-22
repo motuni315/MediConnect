@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>保険証情報変更</title>
+    <link rel="stylesheet" href="../../css/Patient_change.css">
+    <link rel="stylesheet" href="../../css/home_link.css">
+</head>
+<body>
+    <div class="container">
+    <h1>保険証情報の変更</h1>
+    <form method="post" action="{% url 'insurance_change' %}">
+    {% csrf_token %}
+        患者ID：{{ patid }}<br><br>
+        {% if check == 0 %}
+        現在の保険証名記号番号:{{ hokenmei }}<br><br>
+        <label for="new_hokenmei">新しい保険証名記号番号：</label>
+        <input type="text" id="new_hokenmei" name="new_hokenmei" required><br><br>
+        有効期限：{{ hokenexp }}<br><br>
+        {% endif %}
+        
+        {% if check == 1  %}
+        保険証名記号番号:{{ hokenmei }}<br><br>
+        現在の有効期限：{{ hokenexp }}<br><br>
+        <label for="new_hokenexp">新しい有効期限：</label>
+        <input type="date" id="new_hokenexp" name="new_hokenexp" required><br><br>
+        {% endif %}
+        <button type="submit">変更保存</button>
+        <input type="hidden" name="patid" value="{{ patid }}">
+    </form>
+    <a href="{% url 'patient_table' %}" class="home-link">患者一覧に戻る</a>
+</div>
+</body>
+</html>
