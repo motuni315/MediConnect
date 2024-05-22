@@ -5,7 +5,7 @@ urlpatterns = [
     path('', views.login, name='login'),
     path('logout/', views.logout, name='logout'),
     path('index/', views.index, name='index'),
-    path('register/', views.register, name='register'),
+    path('employee_register/', views.employee_register, name='employee_register'),
     path('confilm_register/', views.confilm_register, name='confilm_register'),
     path('admin_table/', views.admin_table, name='admin_table'),
     path('hospital_table/', views.hospital_table, name='hospital_table'),
@@ -13,4 +13,5 @@ urlpatterns = [
     path('phone_change/', views.phone_change, name='phone_change'),
     path('hospital_list/', views.hospital_list, name='hospital_list'),
     path('employee_list/', views.employee_list, name='employee_list'),
+    path('patient_register/', views.patient_register, name='patient_register'),
 ]

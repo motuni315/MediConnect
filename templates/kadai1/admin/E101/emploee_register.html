@@ -10,7 +10,7 @@
 <body>
   <div class="container">
     <h1>従業員登録</h1>
-    <form action="{% url 'register' %}" method="post">
+    <form action="{% url 'employee_register' %}" method="post">
         {% csrf_token %}
         <div class="form-group">
         <label for="userid">ユーザーID:</label>
