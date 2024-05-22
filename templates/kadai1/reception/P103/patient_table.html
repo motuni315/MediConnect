@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>従業員一覧</title>
+</head>
+<body>
+    <div class="container">
+        <h1>従業員一覧</h1>
+    <div class="search-container">
+            <form method="get" action="{% url 'patient_search' %}">
+                <label for="patient_search">患者検索:</label>
+                <input type="text" id="patient_search" name="patient" placeholder="患者ID(部分一致可)">
+                <button>検索</button>
+            </form>
+        </div>
+
+            <table border="1">
+            <thead>
+                <tr>
+                    <th>患者ID</th>
+                    <th>姓</th>
+                    <th>名</th>
+                    <th>保険証名記号番号</th>
+                    <th>有効期限</th>
+                </tr>
+
+
+            </thead>
+            <tbody id="patient_list">
+                {% for patient in patients %}
+                <tr>
+                    <td>{{ patient.patid }}</td>
+                    <td>{{ patient.patfname }}</td>
+                    <td>{{ patient.patlname }}</td>
+                    <td>{{ patient.hokenmei }}
+                        <form method="get" action="#">
+                            <button class="change-button">変更</button>
+                            <input type="hidden" name="patid" value="{{ patient.patid }}">
+                            <input type="hidden" name="hokenmei" value="{{ patient.hokenmei }}">
+                        </form>  
+                    </td>
+                    <td>
+                        {{ patient.hokenexp }}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="{% url 'index' %}">
+            {% if request.session.emprole == 1 %}
+                医師ホームに戻る
+            {% elif request.session.emprole == 2 %}
+                受付ホームに戻る
+            {% endif %}
+        </a>
+    </div>
+</body>
+</html>

@@ -4,16 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="534aadea-d5c4-429a-abca-55e0a1c7a8cc" name="変更" comment="従業員用パスワード変更">
+    <list default="true" id="534aadea-d5c4-429a-abca-55e0a1c7a8cc" name="変更" comment="患者登録">
+      <change afterPath="$PROJECT_DIR$/templates/kadai1/reception/P103/patient_table.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kadai1/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/kadai1/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kadai1/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/kadai1/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/kadai1/admin/E101/emploee_register.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/kadai1/admin/E101/emploee_register.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/kadai1/admin/E101/emploee_register_confirm.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/kadai1/admin/E101/emploee_register_confirm.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/kadai1/index/index_admin.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/kadai1/index/index_admin.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/kadai1/index/index_doctor.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/kadai1/index/index_doctor.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/kadai1/index/index_reception.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/kadai1/index/index_reception.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/kadai1/reception/patient_register.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/kadai1/reception/patient_register.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/kadai1/reception/patient_register_confirm.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/kadai1/reception/patient_register_confirm.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/kadai1/reception/patient_register.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/kadai1/reception/P101/patient_register.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/kadai1/reception/patient_register_confirm.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/kadai1/reception/P101/patient_register_confirm.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,7 +65,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "DefaultHtmlFileTemplate": "HTML File",
-    "Django サーバー.MediConnect.executor": "Debug",
+    "Django サーバー.MediConnect.executor": "Run",
     "RunOnceActivity.OpenDjangoStructureViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "django.template.preview.state": "SHOW_EDITOR",
@@ -91,11 +90,11 @@
       <recent name="$PROJECT_DIR$/templates/kadai1" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/templates/kadai1/reception/P101" />
       <recent name="$PROJECT_DIR$/templates/kadai1/reception" />
       <recent name="$PROJECT_DIR$/templates/kadai1/css" />
       <recent name="$PROJECT_DIR$/templates/kadai1/admin" />
       <recent name="$PROJECT_DIR$/templates/kadai1/other" />
-      <recent name="$PROJECT_DIR$/templates/kadai1/admin/E103" />
     </key>
   </component>
   <component name="RunManager">
@@ -152,7 +151,7 @@
       <workItem from="1715911657340" duration="6756000" />
       <workItem from="1716163735717" duration="20958000" />
       <workItem from="1716195500751" duration="13748000" />
-      <workItem from="1716339171646" duration="6083000" />
+      <workItem from="1716339171646" duration="9802000" />
     </task>
     <task id="LOCAL-00001" summary="初期設定">
       <option name="closed" value="true" />
@@ -266,7 +265,15 @@
       <option name="project" value="LOCAL" />
       <updated>1716291828649</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="患者登録">
+      <option name="closed" value="true" />
+      <created>1716346092689</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1716346092689</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -296,7 +303,8 @@
     <MESSAGE value="資本金検索" />
     <MESSAGE value="従業員検索" />
     <MESSAGE value="従業員用パスワード変更" />
-    <option name="LAST_COMMIT_MESSAGE" value="従業員用パスワード変更" />
+    <MESSAGE value="患者登録" />
+    <option name="LAST_COMMIT_MESSAGE" value="患者登録" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -330,76 +338,6 @@
           <url>file://$PROJECT_DIR$/templates/kadai1/admin/H100/hospital_table.html</url>
           <line>13</line>
           <option name="timeStamp" value="65" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/kadai1/views.py</url>
-          <line>91</line>
-          <option name="timeStamp" value="107" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/kadai1/views.py</url>
-          <line>92</line>
-          <option name="timeStamp" value="108" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/kadai1/views.py</url>
-          <line>77</line>
-          <option name="timeStamp" value="109" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/kadai1/views.py</url>
-          <line>93</line>
-          <option name="timeStamp" value="110" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/kadai1/views.py</url>
-          <line>94</line>
-          <option name="timeStamp" value="111" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/kadai1/views.py</url>
-          <line>95</line>
-          <option name="timeStamp" value="112" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/kadai1/views.py</url>
-          <line>96</line>
-          <option name="timeStamp" value="113" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/kadai1/views.py</url>
-          <line>98</line>
-          <option name="timeStamp" value="114" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/kadai1/views.py</url>
-          <line>99</line>
-          <option name="timeStamp" value="115" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/kadai1/views.py</url>
-          <line>100</line>
-          <option name="timeStamp" value="116" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/kadai1/views.py</url>
-          <line>102</line>
-          <option name="timeStamp" value="118" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/kadai1/views.py</url>
-          <line>101</line>
-          <option name="timeStamp" value="119" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/kadai1/views.py</url>
-          <line>103</line>
-          <option name="timeStamp" value="120" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/kadai1/views.py</url>
-          <line>107</line>
-          <option name="timeStamp" value="121" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -14,4 +14,6 @@ urlpatterns = [
     path('hospital_list/', views.hospital_list, name='hospital_list'),
     path('employee_list/', views.employee_list, name='employee_list'),
     path('patient_register/', views.patient_register, name='patient_register'),
+    path('patient_table/', views.patient_table, name='patient_table'),
+    path('patient_search/', views.patient_search, name='patient_search'),
 ]

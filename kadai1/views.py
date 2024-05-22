@@ -117,6 +117,10 @@ def hospital_table(request):
     hospitals = Tabyouin.objects.all()
     return render(request, '../templates/kadai1/admin/H100/hospital_table.html', {'hospitals': hospitals})
 
+def patient_table(request):
+    patients = Patient.objects.all()
+    return render(request,'kadai1/reception/P103/patient_table.html',{'patients': patients})
+
 
 def emp_passChange(request):
     if request.method == 'GET':
@@ -205,10 +209,18 @@ def employee_list(request):
     context = {'employees': emp_info}
     return render(request, 'kadai1/admin/E103/employee_table.html', context)
 
+def patient_search(request):
+    patient = request.GET.get('patient')
+    if patient:
+        patients = Patient.objects.filter(patid__icontains=patient)
+    else:
+        patients = Patient.objects.none()  # クエリがない場合は空のクエリセットを返す
+
+    return render(request, 'kadai1/reception/P103/patient_table.html', {'patients': patients})
 
 def patient_register(request):
     if request.method == 'GET':
-        return render(request, 'kadai1/reception/patient_register.html')
+        return render(request, 'kadai1/reception/P101/patient_register.html')
     elif request.method == 'POST':
         pid = request.POST['pid']
         patsname = request.POST['surname']
@@ -227,4 +239,4 @@ def patient_register(request):
         if Patient.objects.filter(patid=pid).exists():
             return HttpResponse('IDが一致しています')
 
-        return render(request, 'kadai1/reception/patient_register_confirm.html', context)
+        return render(request, 'kadai1/reception/P101/patient_register_confirm.html', context)
