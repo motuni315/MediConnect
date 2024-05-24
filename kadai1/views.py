@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 
-from kadai1.models import Employee, Tabyouin, Patient
+from kadai1.models import Employee, Tabyouin, Patient, Medicine,Treatment
 
 
 def login(request):
@@ -283,4 +283,20 @@ def insurance_change(request):
             except Patient.DoesNotExist:
                 return HttpResponse('IDが見つかりません')
 
+def patient_medicine_touyo(request):
+    if request.method == 'GET':
+        patid = request.GET.get('patid')
+        patfname = request.GET.get('patfname')
+        patlname = request.GET.get('patlname')
+        print(patid, patfname, patlname)
+        treatments = Treatment.objects.filter(patid=patid).select_related('medicineid')
+
+
+
+        context = {
+            'patfname': patfname,
+            'patlname': patlname,
+            'treatments': treatments
+        }
+        return render(request,'kadai1/doctor/patient_medicine_touyo.html',context)
 

@@ -22,8 +22,13 @@
                     <th>患者ID</th>
                     <th>姓</th>
                     <th>名</th>
-                    <th>保険証名記号番号</th>
-                    <th>有効期限</th>
+                    {% if request.session.emprole == 2 %}
+                        <th>保険証名記号番号</th>
+                        <th>有効期限</th>
+                    {% endif %}
+                    {% if request.session.emprole == 1 %}
+                        <th>薬剤情報</th>
+                    {% endif %}
                 </tr>
 
 
@@ -34,6 +39,7 @@
                     <td>{{ patient.patid }}</td>
                     <td>{{ patient.patfname }}</td>
                     <td>{{ patient.patlname }}</td>
+                    {% if request.session.emprole == 2 %}
                     <td>{{ patient.hokenmei }}
                         <form method="get" action="{% url 'insurance_change' %}">
                             {% csrf_token %}
@@ -42,10 +48,11 @@
                             <input type="hidden" name="hokenmei" value="{{ patient.hokenmei }}">
                             <input type="hidden" name="hokenexp" value="{{ patient.hokenexp }}">
                             <input type="hidden" name="check" value=0>
-                        </form>  
+                        </form>
                     </td>
                     <td>
                         {{ patient.hokenexp }}
+                        
                         <form method="get" action="{% url 'insurance_change' %}">
                             {% csrf_token %}
                             <button class="change-button">変更</button>
@@ -54,7 +61,18 @@
                             <input type="hidden" name="hokenexp" value="{{ patient.hokenexp }}">
                             <input type="hidden" name="check" value=1>
                         </form> 
+                        {% endif %}
                     </td>
+                    {% if request.session.emprole == 1 %}
+                        <td>
+                            <form method="get" action="{% url 'patient_medicine_touyo' %}">
+                                <button>変更</button>
+                                <input type="hidden" name="patid" value="{{ patient.patid }}">
+                                <input type="hidden" name="patfname" value="{{ patient.patfname }}">
+                                <input type="hidden" name="patlname" value="{{ patient.patlname }}">
+                            </form>
+                        </td>
+                    {% endif %}
                 </tr>
                 {% endfor %}
             </tbody>

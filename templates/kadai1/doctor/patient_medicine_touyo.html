@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>薬剤情報</title>
+</head>
+<body>
+    <div class="container">
+        <h1>患者名: {{ patfname }} {{ patlname }}</h1>
+        
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>薬剤名</th>
+                    <th>投与量</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for treatment in treatments %}
+                <tr>
+                    <td>{{ treatment.medicineid.medicinename }}</td>
+                    <td></td>
+                    
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

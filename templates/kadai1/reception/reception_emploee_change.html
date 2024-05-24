@@ -22,7 +22,14 @@
             <button type="submit">変更</button>
             <input type="hidden" name="empid" value="{{ empid }}">
         </form>
-        <a href="{% url 'index' %}" class="home-link">受付ホームに戻る</a>
+        <a href="{% url 'index' %}" class="home-link">
+            {% if request.session.emprole == 2 %}
+                受付
+            {% elif request.session.emprole == 1 %}
+                医師
+            {% endif %}
+            ホームに戻る
+            </a>
     </div>
 
 
