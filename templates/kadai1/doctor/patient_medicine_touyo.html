@@ -7,24 +7,66 @@
 <body>
     <div class="container">
         <h1>患者名: {{ patfname }} {{ patlname }}</h1>
+    
         
+        <h2>現在処方されている薬剤</h2>
         <table border="1">
             <thead>
                 <tr>
                     <th>薬剤名</th>
-                    <th>投与量</th>
+                    <th>数量</th>
                 </tr>
             </thead>
             <tbody>
                 {% for treatment in treatments %}
                 <tr>
-                    <td>{{ treatment.medicineid.medicinename }}</td>
-                    <td></td>
+                    <td>{{ treatment.medicinename }}</td>
+                    <td>{{ treatment.quantity }}</td>
+                    <td>
+                        <form method="post" action="{% url 'delete_medicine' %}">
+                            {% csrf_token %}
+                            <input type="number" name="quantity" required>
+                            <input type="submit" value="削除">
+                            <input type="hidden" name="medicineid" value="{{ treatment.medicineid }}">
+                        </form>
+                    </td>
                     
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
+    
+        <h2>薬剤選択</h2>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>薬剤名</th>
+                    <th>数量</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- 薬剤一覧を表示するためのループ -->
+                {% for medicine in medicines %}
+                <tr>
+                    <td>{{ medicine.medicinename }}</td>
+                    <td>
+                        <form method="post" action="{% url 'add_medicine' %}">
+                            {% csrf_token %}
+                            <input type="number" name="quantity" required>
+                            <input type="submit" value="追加">
+                            <input type="hidden" name="medicineid" value="{{ medicine.medicineid }}">
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        <form method="get" action="#">
+            <button>変更確認</button>
+        </form>
+        
+        <a href="{% url 'patient_table' %}">患者一覧へ戻る</a>
     </div>
 </body>
 </html>

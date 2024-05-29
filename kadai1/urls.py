@@ -18,4 +18,6 @@ urlpatterns = [
     path('patient_search/', views.patient_search, name='patient_search'),
     path('insurance_change/', views.insurance_change, name='insurance_change'),
     path('patient_medicine_touyo/',views.patient_medicine_touyo, name='patient_medicine_touyo'),
+    path('add_medicine/', views.add_medicine, name='add_medicine'),
+    path('delete_medicine/', views.delete_medicine, name='delete_medicine'),
 ]
