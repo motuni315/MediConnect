@@ -326,45 +326,38 @@ def add_medicine(request):
         patlname = request.session.get('patlname')
         quantity = request.POST.get('quantity')
         medicines = Medicine.objects.all()
-        total_quantity = request.session.get('total_quantity', 0)
 
-        try:
+        treatment_info = Treatment.objects.filter(patid=patid, medicineid=medicineid)
+        treatment_list = request.session.get('treatment_list', [])
 
-            if int(quantity) <= 0:
-                raise ValueError("数量は正の値を入れてください")
+        # Check if the medicineid is already in the treatment_list
+        if not any(item['medicineid'] == medicineid for item in treatment_list):
+            for treatment in treatment_info:
+                treatment_list.append({
+                    'id': treatment.id,
+                    'quantity': int(quantity),  # Use the quantity from the POST data
+                    'medicinename': treatment.medicineid.medicinename,
+                    'medicineid': treatment.medicineid.medicineid
+                })
+        else:
+            # If the medicineid is in the treatment_list, update the quantity
+            for item in treatment_list:
+                if item['medicineid'] == medicineid:
+                    item['quantity'] += int(quantity)
 
-            medicine = Medicine.objects.get(medicineid=medicineid)
-            treatment = Treatment.objects.get(patid=patid, medicineid=medicine)
-            # 既存の治療情報がある場合、数量を追加
-            treatment.quantity += int(quantity)
-            total_quantity += int(quantity)
-            treatment.save()
-
-            request.session['total_quantity'] = total_quantity
-
-        except ValueError as e:
-            # quantityがマイナスの場合の処理
-            print("Error:", e)
-            # エラーメッセージを設定するなどの処理を行う
-            return render(request, 'kadai1/Error.html', {'error_message': str(e)})
-        except Treatment.DoesNotExist:
-            # データベースに治療情報が存在しない場合の処理
-            # 新しい治療情報を作成し、数量を設定する
-            treatments = Treatment.objects.create(patid=patid, medicineid=medicine, quantity=int(quantity))
-
-        treatments = Treatment.objects.filter(patid=patid).select_related('medicineid')
-        for treatment in treatments:
-            print(treatment.quantity)
+        # Save the updated treatment_list to the session
+        request.session['treatment_list'] = treatment_list
 
         context = {
             'patid': patid,
             'patfname': patfname,
             'patlname': patlname,
-            'treatments': treatments,
+            'treatments': treatment_list,
             'medicines': medicines
         }
 
         return render(request, 'kadai1/doctor/patient_medicine_touyo.html', context)
+
 
 
 def delete_medicine(request):
@@ -378,23 +371,38 @@ def delete_medicine(request):
 
         # セッションから treatment_list と deleted_treatments を取得
         treatment_list = request.session.get('treatment_list', [])
-        deleted_treatments = request.session.get('deleted_treatments', {})
+        deleted_treatments = request.session.get('deleted_treatments', [])
         treatment_info = Treatment.objects.filter(patid=patid, medicineid=medicineid)
-        if not deleted_treatments:  # 1回目の削除操作
+
+        if not deleted_treatments:  # リストが空だった時にリストに追加
             for treatment in treatment_info:
-                deleted_treatments['treatment_quantity'] = treatment.quantity
-            deleted_treatments['treatment_quantity'] -= quantity
-        else:  # 2回目以降の削除操作
-            deleted_treatments['treatment_quantity'] -= quantity
-            if deleted_treatments['treatment_quantity'] <= 0:
-                for treatment in treatment_info:
-                    deleted_treatments['treatment_id'] = treatment_list['id']
-                    print(deleted_treatments['treatment_id'])
-                treatment_list = Treatment.objects.filter(patid=patid).select_related('medicineid').exclude(id__in=deleted_treatments['treatment_id'])
+                deleted_treatments.append({
+                    'quantity': treatment.quantity,
+                    'medicineid': medicineid,
+                    'id': treatment.id
+                })
+        elif not any(item['medicineid'] == medicineid for item in deleted_treatments):
+            for treatment in treatment_info:
+                deleted_treatments.append({
+                    'quantity': treatment.quantity,
+                    'medicineid': medicineid,
+                    'id': treatment.id
+                })
+
+        for deleted_treatment in deleted_treatments:
+            if deleted_treatment['medicineid'] == medicineid:
+                deleted_treatment['quantity'] -= quantity
+                id = deleted_treatment['id']
+
+                if deleted_treatment['quantity'] <= 0:
+                    deleted_treatment['quantity'] = 0
+                    treatments = Treatment.objects.filter(patid=patid).select_related('medicineid').exclude(id=id)
+
+                for treatment_lists in treatment_list:
+                    if treatment_lists['medicineid'] == deleted_treatment['medicineid']:
+                        treatment_lists['quantity'] = deleted_treatment['quantity']
 
         request.session['deleted_treatments'] = deleted_treatments
-        print(deleted_treatments['treatment_quantity'])
-        treatment_list[0]['quantity'] = deleted_treatments['treatment_quantity']
 
         context = {
             'patid': patid,
