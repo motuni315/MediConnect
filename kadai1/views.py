@@ -1,3 +1,4 @@
+from django.db import models
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.utils import timezone
@@ -10,7 +11,10 @@ def login(request):
 
 
 def logout(request):
-    request.session.flush()
+    if 'userID' in request.session:
+        del request.session['userID']
+    if 'empinfo' in request.session:
+        del request.session['empinfo']
     return render(request, '../templates/kadai1/L100/login.html')
 
 
@@ -213,13 +217,18 @@ def employee_list(request):
 
 
 def patient_search(request):
-    patient = request.GET.get('patient')
-    if patient:
-        patients = Patient.objects.filter(patid__icontains=patient)
+    query = request.GET.get('patient')
+    if query:
+        # 患者ID、患者名の部分一致検索を実行
+        patients = Patient.objects.filter(
+            models.Q(patid__icontains=query) | models.Q(patfname__icontains=query) | models.Q(
+                patlname__icontains=query))
     else:
         patients = Patient.objects.none()  # クエリがない場合は空のクエリセットを返す
 
     return render(request, 'kadai1/reception/P103/patient_table.html', {'patients': patients})
+
+
 
 
 def patient_register(request):
@@ -438,7 +447,7 @@ def medicine_touyo_confirm(request):
             'treatments': treatments,
         }
 
-        return render(request, 'kadai1/doctor/medicine_touyo_confirm.html',context)
+        return render(request, 'kadai1/doctor/medicine_touyo_confirm.html', context)
     if request.method == 'POST':
         patfname = request.session.get('patfname')
         patlname = request.session.get('patlname')
@@ -464,7 +473,8 @@ def medicine_touyo_confirm(request):
                     'quantity': treatment_record.quantity,
                     'impdate': impdate.strftime("%Y-%m-%d"),
                     'patfname': patfname,
-                    'patlname': patlname
+                    'patlname': patlname,
+                    'patid': patid
                 })
             else:
                 medicine_id = treatment['medicineid']
@@ -483,7 +493,8 @@ def medicine_touyo_confirm(request):
                     'quantity': new_treatment.quantity,
                     'impdate': impdate.strftime("%Y-%m-%d"),
                     'patfname': patfname,
-                    'patlname': patlname
+                    'patlname': patlname,
+                    'patid': patid
                 })
 
         request.session['updated_treatments'] = updated_treatments
@@ -491,7 +502,33 @@ def medicine_touyo_confirm(request):
         context = {
             'patfname': patfname,
             'patlname': patlname,
-            'updated_treatments': updated_treatments
+            'updated_treatments': updated_treatments,
+            'patid': patid
 
         }
-        return render(request,'kadai1/doctor/medicine_updated.html',context)
+        return render(request, 'kadai1/doctor/medicine_updated.html', context)
+
+
+def touyo_history(request):
+    updated_treatments = request.session.get('updated_treatments')
+    return render(request, 'kadai1/doctor/touyo_history.html', {'updated_treatments': updated_treatments})
+
+
+def history_search(request):
+    patients = request.GET.get('patient')
+    updated_treatments = request.session.get('updated_treatments')
+    if patients:
+        # 患者ID、患者名の部分一致検索を実行
+        patients = Patient.objects.filter(
+            models.Q(patid__icontains=patients) | models.Q(patfname__icontains=patients) | models.Q(
+                patlname__icontains=patients))
+        updated_treatments = [treatment for treatment in updated_treatments if
+                              treatment.get('patid') in patients.values_list('patid', flat=True)]
+    else:
+        patients = Patient.objects.none()  # クエリがない場合は空のクエリセットを返す
+
+    context ={
+        'patients': patients,
+        'updated_treatments': updated_treatments
+    }
+    return render(request, 'kadai1/doctor/touyo_history.html', context)

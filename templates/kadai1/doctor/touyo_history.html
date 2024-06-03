@@ -2,18 +2,21 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>薬剤投与確定</title>
+    <title>処置履歴</title>
 </head>
 <body>
     <div class="container">
-        <h1>患者名: {{ patfname }} {{ patlname }}</h1>
-    
-        
-        <h2>確定しました</h2>
-        <h3>処置履歴</h3>
+        <h1>処置履歴</h1>
+        <form method="get" action="{% url 'history_search' %}">
+                <label for="patient_search">患者検索:</label>
+                <input type="text" id="patient_search" name="patient" placeholder="患者ID/患者名(部分一致可)">
+                <button>検索</button>
+            </form>
         <table border="1">
             <thead>
                 <tr>
+                    <th>患者ID</th>
+                    <th>患者名</th>
                     <th>薬剤名</th>
                     <th>数量</th>
                     <th>投与日</th>
@@ -21,19 +24,18 @@
             </thead>
             <tbody>
                 {% for treatment in updated_treatments %}
-                    {% if patid == treatment.patid %}
                         <tr>
+                            <td>{{ treatment.patid }}</td>
+                            <td>{{ treatment.patfname }}{{ treatment.patlname }}</td>
                             <td>{{ treatment.medicinename }}</td>
                             <td>{{ treatment.quantity }}</td>
                             <td>{{ treatment.impdate }}</td>
                         </tr>
-                    {% endif %}
                 {% endfor %}
             </tbody>
         </table>
         
-        <a href="{% url 'patient_table' %}">患者一覧へ戻る</a>
-        <a href="{% url 'index' %}">医師ホームに戻る</a>
+        <a href="{% url 'index' %}">医師ホームへ戻る</a>
     </div>
 </body>
 </html>

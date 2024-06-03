@@ -7,8 +7,8 @@
 <body>
     <div class="container">
         <h1>患者名: {{ patfname }} {{ patlname }}</h1>
-    
-        
+
+
         <h2>新しく処置される薬剤</h2>
         <table border="1">
             <thead>
@@ -21,17 +21,17 @@
                 {% for treatment in treatments %}
                 <tr>
                     <td>{{ treatment.medicinename }}</td>
-                    <td>{{ treatment.quantity }}</td>                 
+                    <td>{{ treatment.quantity }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
-        
+
         <form method="post" action="{% url 'medicine_touyo_confirm' %}">
             {% csrf_token %}
             <button>確定</button>
         </form>
-        
+
         <a href="{% url 'patient_table' %}">患者一覧へ戻る</a>
     </div>
 </body>
