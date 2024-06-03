@@ -20,4 +20,5 @@ urlpatterns = [
     path('patient_medicine_touyo/',views.patient_medicine_touyo, name='patient_medicine_touyo'),
     path('add_medicine/', views.add_medicine, name='add_medicine'),
     path('delete_medicine/', views.delete_medicine, name='delete_medicine'),
+    path('medicine_touyo_confirm/',views.medicine_touyo_confirm, name='medicine_touyo_confirm'),
 ]

@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render
+from django.utils import timezone
 
 from kadai1.models import Employee, Tabyouin, Patient, Medicine, Treatment
 
@@ -387,11 +388,17 @@ def delete_medicine(request):
                     })
         elif not any(item['medicineid'] == medicineid for item in deleted_treatments):
             for treatment in treatment_info:
-                deleted_treatments.append({
-                    'quantity': treatment['quantity'],
-                    'medicineid': medicineid,
-                    'id': treatment['id']
-                })
+                if 'id' in treatment:
+                    deleted_treatments.append({
+                        'quantity': treatment['quantity'],
+                        'medicineid': medicineid,
+                        'id': treatment['id']
+                    })
+                else:
+                    deleted_treatments.append({
+                        'quantity': treatment['quantity'],
+                        'medicineid': medicineid,
+                    })
 
         for deleted_treatment in deleted_treatments:
             if deleted_treatment['medicineid'] == medicineid:
@@ -404,6 +411,9 @@ def delete_medicine(request):
                     if treatment_lists['medicineid'] == deleted_treatment['medicineid']:
                         treatment_lists['quantity'] = deleted_treatment['quantity']
 
+                if deleted_treatment['quantity'] == 0:
+                    deleted_treatments.remove(deleted_treatment)
+
         request.session['deleted_treatments'] = deleted_treatments
 
         context = {
@@ -414,3 +424,74 @@ def delete_medicine(request):
             'medicines': medicines,
         }
         return render(request, 'kadai1/doctor/patient_medicine_touyo.html', context)
+
+
+def medicine_touyo_confirm(request):
+    if request.method == 'GET':
+        patfname = request.session.get('patfname')
+        patlname = request.session.get('patlname')
+        treatments = request.session.get('treatment_list')
+
+        context = {
+            'patfname': patfname,
+            'patlname': patlname,
+            'treatments': treatments,
+        }
+
+        return render(request, 'kadai1/doctor/medicine_touyo_confirm.html',context)
+    if request.method == 'POST':
+        patfname = request.session.get('patfname')
+        patlname = request.session.get('patlname')
+        treatments = request.session.get('treatment_list')
+        impdate = timezone.now().date()
+        patid = request.session.get('patid')
+        updated_treatments = request.session.get('updated_treatments', [])
+        # 保存した情報を格納する新しいリスト
+
+        for treatment in treatments:
+            treatment_id = treatment.get('id')
+            if treatment_id:
+                # IDが存在する場合は更新
+                treatment_record = Treatment.objects.get(id=treatment_id)
+                treatment_record.medicinename = treatment['medicinename']
+                treatment_record.quantity = treatment['quantity']
+                treatment_record.impdate = impdate
+                treatment_record.save()
+
+                updated_treatments.append({
+                    'id': treatment_record.id,
+                    'medicinename': treatment_record.medicinename,
+                    'quantity': treatment_record.quantity,
+                    'impdate': impdate.strftime("%Y-%m-%d"),
+                    'patfname': patfname,
+                    'patlname': patlname
+                })
+            else:
+                medicine_id = treatment['medicineid']
+                medicine_instance = Medicine.objects.get(medicineid=medicine_id)
+                # IDが存在しない場合は新しいレコードを作成
+                new_treatment = Treatment.objects.create(
+                    medicineid=medicine_instance,
+                    quantity=treatment['quantity'],
+                    patid=patid,  # 患者IDをセッションから取得
+                    impdate=impdate
+                )
+
+                updated_treatments.append({
+                    'id': new_treatment.id,
+                    'medicinename': medicine_instance.medicinename,
+                    'quantity': new_treatment.quantity,
+                    'impdate': impdate.strftime("%Y-%m-%d"),
+                    'patfname': patfname,
+                    'patlname': patlname
+                })
+
+        request.session['updated_treatments'] = updated_treatments
+
+        context = {
+            'patfname': patfname,
+            'patlname': patlname,
+            'updated_treatments': updated_treatments
+
+        }
+        return render(request,'kadai1/doctor/medicine_updated.html',context)
