@@ -327,18 +327,16 @@ def add_medicine(request):
         quantity = request.POST.get('quantity')
         medicines = Medicine.objects.all()
 
-        treatment_info = Treatment.objects.filter(patid=patid, medicineid=medicineid)
+        medicine = Medicine.objects.get(medicineid=medicineid)
         treatment_list = request.session.get('treatment_list', [])
 
         # Check if the medicineid is already in the treatment_list
         if not any(item['medicineid'] == medicineid for item in treatment_list):
-            for treatment in treatment_info:
-                treatment_list.append({
-                    'id': treatment.id,
-                    'quantity': int(quantity),  # Use the quantity from the POST data
-                    'medicinename': treatment.medicineid.medicinename,
-                    'medicineid': treatment.medicineid.medicineid
-                })
+            treatment_list.append({
+                'quantity': int(quantity),  # Use the quantity from the POST data
+                'medicinename': medicine.medicinename,
+                'medicineid': medicine.medicineid,
+            })
         else:
             # If the medicineid is in the treatment_list, update the quantity
             for item in treatment_list:
@@ -359,7 +357,6 @@ def add_medicine(request):
         return render(request, 'kadai1/doctor/patient_medicine_touyo.html', context)
 
 
-
 def delete_medicine(request):
     if request.method == 'POST':
         medicineid = request.POST.get('medicineid')
@@ -372,31 +369,36 @@ def delete_medicine(request):
         # セッションから treatment_list と deleted_treatments を取得
         treatment_list = request.session.get('treatment_list', [])
         deleted_treatments = request.session.get('deleted_treatments', [])
-        treatment_info = Treatment.objects.filter(patid=patid, medicineid=medicineid)
+        # treatment_listのmedicineidと入力したmedicineidが一致するレコードを抽出する
+        treatment_info = [t for t in treatment_list if t['medicineid'] == medicineid]
 
         if not deleted_treatments:  # リストが空だった時にリストに追加
             for treatment in treatment_info:
-                deleted_treatments.append({
-                    'quantity': treatment.quantity,
-                    'medicineid': medicineid,
-                    'id': treatment.id
-                })
+                if 'id' in treatment:
+                    deleted_treatments.append({
+                        'quantity': treatment['quantity'],
+                        'medicineid': medicineid,
+                        'id': treatment['id']
+                    })
+                else:
+                    deleted_treatments.append({
+                        'quantity': treatment['quantity'],
+                        'medicineid': medicineid,
+                    })
         elif not any(item['medicineid'] == medicineid for item in deleted_treatments):
             for treatment in treatment_info:
                 deleted_treatments.append({
-                    'quantity': treatment.quantity,
+                    'quantity': treatment['quantity'],
                     'medicineid': medicineid,
-                    'id': treatment.id
+                    'id': treatment['id']
                 })
 
         for deleted_treatment in deleted_treatments:
             if deleted_treatment['medicineid'] == medicineid:
                 deleted_treatment['quantity'] -= quantity
-                id = deleted_treatment['id']
 
                 if deleted_treatment['quantity'] <= 0:
                     deleted_treatment['quantity'] = 0
-                    treatments = Treatment.objects.filter(patid=patid).select_related('medicineid').exclude(id=id)
 
                 for treatment_lists in treatment_list:
                     if treatment_lists['medicineid'] == deleted_treatment['medicineid']:
@@ -409,6 +411,6 @@ def delete_medicine(request):
             'patfname': patfname,
             'patlname': patlname,
             'treatments': treatment_list,
-            'medicines': medicines
+            'medicines': medicines,
         }
         return render(request, 'kadai1/doctor/patient_medicine_touyo.html', context)

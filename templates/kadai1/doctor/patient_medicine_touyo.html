@@ -52,7 +52,7 @@
                     <td>
                         <form method="post" action="{% url 'add_medicine' %}">
                             {% csrf_token %}
-                            <input type="number" name="quantity" required min="1">
+                            <input type="number" name="quantity" value="1" required min="1">
                             <input type="submit" value="追加">
                             <input type="hidden" name="medicineid" value="{{ medicine.medicineid }}">
                         </form>
