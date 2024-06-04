@@ -28,6 +28,8 @@
         {% endif %}
         <button type="submit">変更保存</button>
         <input type="hidden" name="patid" value="{{ patid }}">
+        <input type="hidden" name="hokenmei" value="{{ hokenmei }}">
+        <input type="hidden" name="hokenexp" value="{{ hokenexp }}">
     </form>
     <a href="{% url 'patient_table' %}" class="home-link">患者一覧に戻る</a>
 </div>

@@ -4,15 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="534aadea-d5c4-429a-abca-55e0a1c7a8cc" name="変更" comment="薬剤処置確定機能">
-      <change afterPath="$PROJECT_DIR$/templates/kadai1/doctor/touyo_history.html" afterDir="false" />
+    <list default="true" id="534aadea-d5c4-429a-abca-55e0a1c7a8cc" name="変更" comment="薬剤処置履歴機能＆履歴保持">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kadai1/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/kadai1/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kadai1/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/kadai1/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kadai1/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/kadai1/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/kadai1/doctor/medicine_touyo_confirm.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/kadai1/doctor/medicine_touyo_confirm.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/kadai1/doctor/medicine_updated.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/kadai1/doctor/medicine_updated.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/kadai1/index/index_doctor.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/kadai1/index/index_doctor.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/kadai1/reception/P103/patient_table.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/kadai1/reception/P103/patient_table.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/kadai1/doctor/patient_medicine_touyo.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/kadai1/doctor/patient_medicine_touyo.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/kadai1/reception/P104/insurance_change.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/kadai1/reception/P104/insurance_change.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -161,7 +158,7 @@
       <workItem from="1716858319285" duration="36585000" />
       <workItem from="1717035424601" duration="9563000" />
       <workItem from="1717114497617" duration="19687000" />
-      <workItem from="1717373789825" duration="10794000" />
+      <workItem from="1717373789825" duration="19665000" />
     </task>
     <task id="LOCAL-00001" summary="初期設定">
       <option name="closed" value="true" />
@@ -339,7 +336,15 @@
       <option name="project" value="LOCAL" />
       <updated>1717381563032</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="薬剤処置履歴機能＆履歴保持">
+      <option name="closed" value="true" />
+      <created>1717385080094</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1717385080094</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -376,7 +381,8 @@
     <MESSAGE value="薬剤投与削除機能" />
     <MESSAGE value="薬剤投与削除・追加機能" />
     <MESSAGE value="薬剤処置確定機能" />
-    <option name="LAST_COMMIT_MESSAGE" value="薬剤処置確定機能" />
+    <MESSAGE value="薬剤処置履歴機能＆履歴保持" />
+    <option name="LAST_COMMIT_MESSAGE" value="薬剤処置履歴機能＆履歴保持" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -413,38 +419,28 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/kadai1/views.py</url>
-          <line>225</line>
-          <option name="timeStamp" value="667" />
+          <line>358</line>
+          <option name="timeStamp" value="700" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/kadai1/views.py</url>
-          <line>223</line>
-          <option name="timeStamp" value="668" />
+          <line>360</line>
+          <option name="timeStamp" value="701" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/kadai1/views.py</url>
-          <line>220</line>
-          <option name="timeStamp" value="670" />
+          <line>362</line>
+          <option name="timeStamp" value="702" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/kadai1/views.py</url>
-          <line>222</line>
-          <option name="timeStamp" value="671" />
+          <line>364</line>
+          <option name="timeStamp" value="704" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/kadai1/views.py</url>
-          <line>221</line>
-          <option name="timeStamp" value="672" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/kadai1/views.py</url>
-          <line>219</line>
-          <option name="timeStamp" value="673" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/kadai1/views.py</url>
-          <line>217</line>
-          <option name="timeStamp" value="674" />
+          <line>363</line>
+          <option name="timeStamp" value="705" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>

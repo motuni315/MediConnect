@@ -1,4 +1,7 @@
-from django.db import models
+import re
+from datetime import datetime
+
+from django.db import models, DatabaseError
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.utils import timezone
@@ -62,6 +65,9 @@ def employee_register(request):
         emppassword = request.POST['password']
         empposition = request.POST['position']
 
+        if empposition == '0':
+            return HttpResponse('管理者は登録できません。')
+
         context = {
             'userid': empid,
             'surname': empsname,
@@ -71,7 +77,7 @@ def employee_register(request):
         }
 
         if Employee.objects.filter(empid=empid).exists():
-            return HttpResponse('IDが一致しています')
+            return HttpResponse('すでに登録されているIDと一致しています')
 
         return render(request, '../templates/kadai1/admin/E101/emploee_register_confirm.html', context)
 
@@ -112,19 +118,28 @@ def confilm_register(request):
 
 
 def admin_table(request):
-    employees = Employee.objects.all()
+    try:
+        employees = Employee.objects.all()
+    except DatabaseError:
+        return HttpResponse('データベースエラーが発生しました。後でもう一度試してください。')
     return render(request, '../templates/kadai1/admin/E103/employee_table.html', {'employees': employees})
 
 
 def hospital_table(request):
-    hospitals = Tabyouin.objects.all()
+    try:
+        hospitals = Tabyouin.objects.all()
+    except DatabaseError:
+        return HttpResponse('データベースエラーが発生しました。後でもう一度試してください。')
     return render(request, '../templates/kadai1/admin/H100/hospital_table.html', {'hospitals': hospitals})
 
 
 def patient_table(request):
-    request.session.pop('deleted_treatments', None)
-    request.session.pop('treatment_list', None)
-    patients = Patient.objects.all()
+    try:
+        request.session.pop('deleted_treatments', None)
+        request.session.pop('treatment_list', None)
+        patients = Patient.objects.all()
+    except DatabaseError:
+        return HttpResponse('データベースエラーが発生しました。後でもう一度試してください。')
     return render(request, 'kadai1/reception/P103/patient_table.html', {'patients': patients})
 
 
@@ -166,36 +181,67 @@ def emp_passChange(request):
         else:
             return HttpResponse("新しいパスワードと確認用のパスワードが一致しません。")
 
+def validate_phone_number(phone):
+    # 電話番号の桁数チェック（例：10桁以上とする）
+    if len(re.sub(r'[^\d]', '', phone)) < 10:
+        raise ValueError("電話番号は10桁以上である必要があります。")
+
+    # アルファベットが含まれていないかチェック
+    if re.search(r'[a-zA-Z]', phone):
+        raise ValueError("電話番号にアルファベットを含めることはできません。")
+
+    # 許可されていないセパレーターが含まれていないかチェック
+    if re.search(r'[^\d\-\(\)]', phone):
+        raise ValueError("電話番号には数値、ハイフン、括弧以外の文字を含めることはできません。")
+
+    return phone
+
 
 def phone_change(request):
     if request.method == 'GET':
         tabyouinid = request.GET['tabyouinid']
         tabyouintel = request.GET['tabyouintel']
-        return render(request, 'kadai1/admin/H105/phone_change.html',
-                      {'tabyouinid': tabyouinid, 'tabyouintel': tabyouintel})
+        return render(request, 'kadai1/admin/H105/phone_change.html', {'tabyouinid': tabyouinid, 'tabyouintel': tabyouintel})
 
-    if request.method == "POST":
+    if request.method == 'POST':
         hospital_id = request.POST.get('tabyouinid')
         hospital_phone = request.POST.get('newPhoneNumber')
 
         try:
-            hospital = Tabyouin.objects.get(tabyouinid=hospital_id)
+            # 電話番号のバリデーション
+            validated_phone = validate_phone_number(hospital_phone)
 
-            hospital.tabyouintel = hospital_phone
+            hospital = Tabyouin.objects.get(tabyouinid=hospital_id)
+            hospital.tabyouintel = validated_phone
             hospital.save()
             return render(request, 'kadai1/OK.html')
+        except ValueError as ve:
+            return HttpResponse(f"エラー: {ve}")
         except Tabyouin.DoesNotExist:
             return HttpResponse("指定された病院IDが見つかりません。")
+
+
+def normalize_capital_query(query):
+    # 数字とカンマ、全角カンマ以外の文字を検出
+    if re.search(r'[^\d,，]', query):
+        raise ValueError('無効な文字が含まれています')
+    # 数字以外のすべての文字を除去
+    return re.sub(r'[^\d]', '', query)
 
 
 def hospital_list(request):
     query = request.GET.get('capital')
     if query:
         try:
-            capital_value = int(query)
-            hospitals = Tabyouin.objects.filter(tabyouinshihonkin__gte=capital_value)
-        except ValueError:
-            hospitals = Tabyouin.objects.none()
+            # 様々な形式の入力を正規化します
+            normalized_query = normalize_capital_query(query)
+            if normalized_query:  # 数字が残っているか確認します
+                capital_value = int(normalized_query)
+                hospitals = Tabyouin.objects.filter(tabyouinshihonkin__gte=capital_value)
+            else:
+                hospitals = Tabyouin.objects.none()
+        except ValueError as e:
+            return HttpResponse(f'エラー: {e}')
     else:
         hospitals = Tabyouin.objects.all()
 
@@ -224,7 +270,7 @@ def patient_search(request):
             models.Q(patid__icontains=query) | models.Q(patfname__icontains=query) | models.Q(
                 patlname__icontains=query))
     else:
-        patients = Patient.objects.none()  # クエリがない場合は空のクエリセットを返す
+        patients = Patient.objects.all()  # クエリがない場合は空のクエリセットを返す
 
     return render(request, 'kadai1/reception/P103/patient_table.html', {'patients': patients})
 
@@ -250,9 +296,22 @@ def patient_register(request):
         }
 
         if Patient.objects.filter(patid=pid).exists():
-            return HttpResponse('IDが一致しています')
+            return HttpResponse('すでに登録したIDと一致しています')
 
         return render(request, 'kadai1/reception/P101/patient_register_confirm.html', context)
+
+
+def validate_expiry_date(new_date, current_date):
+    new_date_obj = datetime.strptime(new_date, '%Y-%m-%d').date()
+    current_date_str = current_date.strftime('%Y-%m-%d')  # current_date を str に変換
+    current_date_obj = datetime.strptime(current_date_str, '%Y-%m-%d').date()
+
+    if new_date_obj <= current_date_obj:
+        raise ValueError("有効期限は現在の有効期限よりも新しい日付である必要があります。")
+    elif new_date_obj == current_date_obj:
+        raise ValueError("有効期限は現在の有効期限と同一の日付で変更できません。")
+
+    return new_date_obj
 
 
 def insurance_change(request):
@@ -275,20 +334,36 @@ def insurance_change(request):
         patid = request.POST.get('patid')
         new_hokenmei = request.POST.get('new_hokenmei')
         new_hokenexp = request.POST.get('new_hokenexp')
+        hokenmei = request.POST.get('hokenmei')
+        hokenexp = request.POST.get('hokenexp')
 
-        if new_hokenmei:
+        if new_hokenexp:
             try:
+                if not new_hokenmei:
+                    new_hokenmei = hokenmei
                 patient = Patient.objects.get(patid=patid)
+                current_expiry = patient.hokenexp
+                # 有効期限のバリデーション
+                validated_expiry = validate_expiry_date(new_hokenexp, current_expiry)
+
+                # 更新
                 patient.hokenmei = new_hokenmei
+                patient.hokenexp = validated_expiry
                 patient.save()
                 return render(request, 'kadai1/OK.html')
+            except ValueError as ve:
+                return HttpResponse(f"エラー: {ve}")
             except Patient.DoesNotExist:
                 return HttpResponse('IDが見つかりません')
 
-        elif new_hokenexp:
+        elif new_hokenmei:
             try:
+                if new_hokenexp == 'None':
+                    new_hokenexp = hokenexp
                 patient = Patient.objects.get(patid=patid)
-                patient.hokenexp = new_hokenexp
+                if new_hokenmei == hokenmei:
+                    return HttpResponse("新しい保険証名記号番号は既存のものと同じです。")
+                patient.hokenmei = new_hokenmei
                 patient.save()
                 return render(request, 'kadai1/OK.html')
             except Patient.DoesNotExist:
@@ -522,8 +597,11 @@ def history_search(request):
         patients = Patient.objects.filter(
             models.Q(patid__icontains=patients) | models.Q(patfname__icontains=patients) | models.Q(
                 patlname__icontains=patients))
-        updated_treatments = [treatment for treatment in updated_treatments if
-                              treatment.get('patid') in patients.values_list('patid', flat=True)]
+        if patients.exists():
+            updated_treatments = [treatment for treatment in updated_treatments if
+                                  treatment.get('patid') in patients.values_list('patid', flat=True)]
+        else:
+            return HttpResponse('入力された患者IDは見つかりませんでした。')
     else:
         patients = Patient.objects.none()  # クエリがない場合は空のクエリセットを返す
 

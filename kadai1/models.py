@@ -10,15 +10,6 @@ class Tabyouin(models.Model):
     kyukyu = models.IntegerField()
 
 
-class Shiiregyosha(models.Model):
-    shiireid = models.CharField(max_length=8, primary_key=True)
-    shiiremei = models.CharField(max_length=64)
-    shiireaddress = models.CharField(max_length=64)
-    shiiretel = models.CharField(max_length=13)
-    shihonkin = models.IntegerField()
-    nouki = models.IntegerField()
-
-
 class Employee(models.Model):
     empid = models.CharField(max_length=8, primary_key=True)
     empfname = models.CharField(max_length=64)

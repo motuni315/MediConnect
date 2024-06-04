@@ -35,6 +35,9 @@
                 {% endfor %}
             </tbody>
         </table>
+        <form method="get" action="{% url 'medicine_touyo_confirm' %}">
+            <button>変更確認</button>
+        </form>
     
         <h2>薬剤選択</h2>
         <table border="1">
@@ -62,9 +65,7 @@
             </tbody>
         </table>
         
-        <form method="get" action="{% url 'medicine_touyo_confirm' %}">
-            <button>変更確認</button>
-        </form>
+        
         
         <a href="{% url 'patient_table' %}">患者一覧へ戻る</a>
     </div>
