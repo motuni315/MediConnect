@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>病院情報登録確認</title>
+    <link rel="stylesheet" href="../../css/register.css">
+</head>
+<body>
+    <div class="container">
+        <h2>病院登録確認</h2>
+            <div class="confirmation">
+                <div id="confirmation-info">
+                    <p><strong>病院ID:</strong>{{ hospitalid }}</p>
+                    <p><strong>病院名:</strong> {{ hospital_name }}</p>
+                    <p><strong>住所:</strong> {{ hospital_address }}</p>
+                    <p><strong>電話番号:</strong> {{ hospital_number }}</p>
+                    <p><strong>資本金:</strong> {{ capital }}</p>
+                    <p><strong>救急対応:</strong> 
+                                                {% if emergency_response == 1  %}
+                                                    あり
+                                                {% elif emergency_response == 0 %}
+                                                    なし
+                                                {% endif %}</p>
+                </div>
+                 <div class="confirmation-buttons">
+                     <form method="post" action="{% url 'hospital_register_confirm' %}">
+                         {% csrf_token %}
+                        <button>登録</button>
+                     </form>
+                     <form method="get" action="{% url 'hospital_register' %}">
+                        <button>修正</button>
+                     </form>
+                </div>
+
+            </div>
+    </div>
+</body>
+</html>

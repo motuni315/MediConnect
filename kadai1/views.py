@@ -117,7 +117,7 @@ def confilm_register(request):
     return render(request, 'kadai1/OK.html')
 
 
-def admin_table(request):
+def employee_table(request):
     try:
         employees = Employee.objects.all()
     except DatabaseError:
@@ -181,18 +181,25 @@ def emp_passChange(request):
         else:
             return HttpResponse("新しいパスワードと確認用のパスワードが一致しません。")
 
+
+import re
+
+
 def validate_phone_number(phone):
-    # 電話番号の桁数チェック（例：10桁以上とする）
-    if len(re.sub(r'[^\d]', '', phone)) < 10:
-        raise ValueError("電話番号は10桁以上である必要があります。")
+    # 数字のみを抽出
+    dig = re.sub(r'[^\d]', '', phone)
+
+    # 電話番号の桁数チェック（例：11桁とする）
+    if len(dig) != 11:
+        raise ValueError("電話番号は11桁である必要があります。")
 
     # アルファベットが含まれていないかチェック
     if re.search(r'[a-zA-Z]', phone):
         raise ValueError("電話番号にアルファベットを含めることはできません。")
 
     # 許可されていないセパレーターが含まれていないかチェック
-    if re.search(r'[^\d\-\(\)]', phone):
-        raise ValueError("電話番号には数値、ハイフン、括弧以外の文字を含めることはできません。")
+    if re.search(r'[^\d\-() ]', phone):
+        raise ValueError("電話番号には数値、ハイフン、括弧、空白以外の文字を含めることはできません。")
 
     return phone
 
@@ -223,7 +230,7 @@ def phone_change(request):
 
 def normalize_capital_query(query):
     # 数字とカンマ、全角カンマ以外の文字を検出
-    if re.search(r'[^\d,，]', query):
+    if re.search(r'[^\d,，¥￥]', query):
         raise ValueError('無効な文字が含まれています')
     # 数字以外のすべての文字を除去
     return re.sub(r'[^\d]', '', query)
@@ -275,6 +282,28 @@ def patient_search(request):
     return render(request, 'kadai1/reception/P103/patient_table.html', {'patients': patients})
 
 
+def validate_card_number(card_number):
+    # 保険証名記号番号の桁数チェック（例：10桁以上とする）
+    if len(re.sub(r'[^\d]', '', card_number)) != 10:
+        raise ValueError("保険証名記号番号は10桁である必要があります。")
+
+    # アルファベットが含まれていないかチェック
+    if re.search(r'[a-zA-Z]', card_number):
+        raise ValueError("保険証名記号番号にアルファベットを含めることはできません。")
+
+    # 許可されていないセパレーターが含まれていないかチェック
+    if re.search(r'[^\d]', card_number):
+        raise ValueError("保険証名記号番号には数値以外の文字を含めることはできません。")
+
+    return card_number
+
+
+def validate_date(date_str):
+    try:
+        date_obj = datetime.strptime(date_str, '%Y-%m-%d')
+        return date_obj.date()
+    except ValueError:
+        raise ValueError('有効期限は正しい日付形式(YYYY-MM-DD)で入力してください。')
 
 
 def patient_register(request):
@@ -287,12 +316,18 @@ def patient_register(request):
         insurance_card_number = request.POST['insurance_card_number']
         date_expiry = request.POST['date-expiry']
 
+        try:
+            validated_card_number = validate_card_number(insurance_card_number)
+            validated_date_expiry = validate_date(date_expiry)
+        except ValueError as e:
+            return HttpResponse(f'エラー: {e}')
+
         context = {
             'pid': pid,
             'surname': patsname,
             'first_name': patfname,
-            'insurance_card_number': insurance_card_number,
-            'date_expiry': date_expiry
+            'insurance_card_number': validated_card_number,
+            'date_expiry': validated_date_expiry
         }
 
         if Patient.objects.filter(patid=pid).exists():
@@ -302,7 +337,16 @@ def patient_register(request):
 
 
 def validate_expiry_date(new_date, current_date):
-    new_date_obj = datetime.strptime(new_date, '%Y-%m-%d').date()
+    # new_dateが数値でない場合にエラーを発生させる
+    if not isinstance(new_date, str):
+        raise TypeError("有効期限は文字列で指定する必要があります。")
+
+    # 新しい有効期限が正しい日付形式であるかどうかをチェック
+    try:
+        new_date_obj = datetime.strptime(new_date, '%Y-%m-%d').date()
+    except ValueError:
+        raise ValueError("有効期限の形式が正しくありません。正しい形式はYYYY-MM-DDです。")
+
     current_date_str = current_date.strftime('%Y-%m-%d')  # current_date を str に変換
     current_date_obj = datetime.strptime(current_date_str, '%Y-%m-%d').date()
 
@@ -310,6 +354,9 @@ def validate_expiry_date(new_date, current_date):
         raise ValueError("有効期限は現在の有効期限よりも新しい日付である必要があります。")
     elif new_date_obj == current_date_obj:
         raise ValueError("有効期限は現在の有効期限と同一の日付で変更できません。")
+
+    return new_date_obj
+
 
     return new_date_obj
 
@@ -358,16 +405,20 @@ def insurance_change(request):
 
         elif new_hokenmei:
             try:
+                validated_card_number = validate_card_number(new_hokenmei)
+
                 if new_hokenexp == 'None':
                     new_hokenexp = hokenexp
                 patient = Patient.objects.get(patid=patid)
                 if new_hokenmei == hokenmei:
                     return HttpResponse("新しい保険証名記号番号は既存のものと同じです。")
-                patient.hokenmei = new_hokenmei
+                patient.hokenmei = validated_card_number
                 patient.save()
                 return render(request, 'kadai1/OK.html')
             except Patient.DoesNotExist:
                 return HttpResponse('IDが見つかりません')
+            except ValueError as e:
+                    return HttpResponse(f'エラー: {e}')
 
 
 def patient_medicine_touyo(request):
@@ -610,3 +661,71 @@ def history_search(request):
         'updated_treatments': updated_treatments
     }
     return render(request, 'kadai1/doctor/touyo_history.html', context)
+
+
+def hospital_register(request):
+    if request.method == 'GET':
+        return render(request,'kadai1/admin/H100/hospital_register.html')
+    if request.method == 'POST':
+        hospitalid = request.POST.get('hospitalid')
+        hospital_name = request.POST.get('hospital_name')
+        hospital_number = request.POST.get('hospital_number')
+        hospital_address = request.POST.get('hospital_address')
+        capital = request.POST.get('capital')
+        emergency_response = int(request.POST.get('emergency_response'))
+
+        if Tabyouin.objects.filter(tabyouinid=hospitalid).exists():
+            return HttpResponse('エラー: 同じ病院IDが既に存在します。')
+        try:
+            normalized_query = normalize_capital_query(capital)
+            capital_value = int(normalized_query)
+            validated_phone = validate_phone_number(hospital_number)
+
+        except ValueError as e:
+            return HttpResponse(f'エラー: {e}')
+
+        request.session['hospitalid'] = hospitalid
+        request.session['hospital_name'] = hospital_name
+        request.session['hospital_number'] = validated_phone
+        request.session['hospital_address'] = hospital_address
+        request.session['capital'] = capital_value
+        request.session['emergency_response'] = emergency_response
+
+        context = {
+            'hospitalid': hospitalid,
+            'hospital_name': hospital_name,
+            'hospital_number': hospital_number,
+            'hospital_address': hospital_address,
+            'capital': capital,
+            'emergency_response': emergency_response
+        }
+        return render(request, 'kadai1/admin/H100/hopital_register_confirm.html', context)
+
+
+def hospital_register_confirm(request):
+    if request.method == 'POST':
+        hospitalid = request.session.get('hospitalid')
+        hospital_name = request.session.get('hospital_name')
+        hospital_number = request.session.get('hospital_number')
+        hospital_address = request.session.get('hospital_address')
+        capital = request.session.get('capital')
+        emergency_response = int(request.session.get('emergency_response'))
+
+        Tabyouin.objects.create(
+            tabyouinid=hospitalid,
+            tabyouinmei=hospital_name,
+            tabyouintel=hospital_number,
+            tabyouinaddres=hospital_address,
+            tabyouinshihonkin=capital,
+            kyukyu=emergency_response
+        )
+
+        del request.session['hospitalid']
+        del request.session['hospital_name']
+        del request.session['hospital_number']
+        del request.session['hospital_address']
+        del request.session['capital']
+        del request.session['emergency_response']
+
+        return render(request,'kadai1/OK.html')
+

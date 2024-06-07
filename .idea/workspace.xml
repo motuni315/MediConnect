@@ -6,9 +6,16 @@
   <component name="ChangeListManager">
     <list default="true" id="534aadea-d5c4-429a-abca-55e0a1c7a8cc" name="変更" comment="薬剤処置履歴機能＆履歴保持">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MediConnect/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/MediConnect/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kadai1/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/kadai1/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/kadai1/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/kadai1/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kadai1/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/kadai1/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/kadai1/doctor/patient_medicine_touyo.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/kadai1/doctor/patient_medicine_touyo.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/kadai1/admin/E103/employee_passchange.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/kadai1/admin/E103/employee_passchange.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/kadai1/admin/H100/hospital_table.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/kadai1/admin/H100/hospital_table.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/kadai1/doctor/add_medicine.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/kadai1/index/index_admin.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/kadai1/index/index_admin.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/kadai1/other/hopital_register_confirm.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/kadai1/admin/H100/hopital_register_confirm.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/kadai1/other/hospital_register.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/kadai1/admin/H100/hospital_register.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/kadai1/reception/P104/insurance_change.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/kadai1/reception/P104/insurance_change.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -59,42 +66,42 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "DefaultHtmlFileTemplate": "HTML File",
-    "Django サーバー.MediConnect.executor": "Run",
-    "RunOnceActivity.OpenDjangoStructureViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.pycharm.django.structure.promotion.once.per.project": "true",
-    "database.data.extractors.current.export.id": "SQL の INSERT",
-    "database.data.extractors.current.id": "SQL の INSERT",
-    "django.template.preview.state": "SHOW_EDITOR",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "/Users/kurasakishoki/PycharmProjects/MediConnect/templates/kadai1",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "database.other",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;Django サーバー.MediConnect.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenDjangoStructureViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.pycharm.django.structure.promotion.once.per.project&quot;: &quot;true&quot;,
+    &quot;database.data.extractors.current.export.id&quot;: &quot;SQL の INSERT&quot;,
+    &quot;database.data.extractors.current.id&quot;: &quot;SQL の INSERT&quot;,
+    &quot;django.template.preview.state&quot;: &quot;SHOW_EDITOR&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/kurasakishoki/PycharmProjects/MediConnect/templates/kadai1&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;configurable.group.database.main&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mysql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/templates/kadai1" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/templates/kadai1/admin/H100" />
       <recent name="$PROJECT_DIR$/templates/kadai1/doctor" />
       <recent name="$PROJECT_DIR$/templates/kadai1/reception/P104" />
       <recent name="$PROJECT_DIR$/templates/kadai1/reception" />
       <recent name="$PROJECT_DIR$/templates/kadai1/admin/H105" />
-      <recent name="$PROJECT_DIR$/templates/kadai1/reception/P101" />
     </key>
   </component>
   <component name="RunManager">
@@ -108,13 +115,14 @@
         <env name="DJANGO_SETTINGS_MODULE" value="MediConnect.settings" />
       </envs>
       <option name="SDK_HOME" value="" />
+      <option name="SDK_NAME" value="Python 3.12 (MediConnect)" />
       <option name="WORKING_DIRECTORY" value="" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="launchJavascriptDebuger" value="false" />
       <option name="port" value="8000" />
-      <option name="host" value="localhost" />
+      <option name="host" value="0.0.0.0" />
       <option name="additionalOptions" value="" />
       <option name="browserUrl" value="" />
       <option name="runTestServer" value="false" />
@@ -158,7 +166,13 @@
       <workItem from="1716858319285" duration="36585000" />
       <workItem from="1717035424601" duration="9563000" />
       <workItem from="1717114497617" duration="19687000" />
-      <workItem from="1717373789825" duration="19665000" />
+      <workItem from="1717373789825" duration="20352000" />
+      <workItem from="1717466717441" duration="1466000" />
+      <workItem from="1717468198551" duration="10271000" />
+      <workItem from="1717560507985" duration="4021000" />
+      <workItem from="1717565703617" duration="1662000" />
+      <workItem from="1717641355003" duration="300000" />
+      <workItem from="1717643234564" duration="3087000" />
     </task>
     <task id="LOCAL-00001" summary="初期設定">
       <option name="closed" value="true" />
@@ -344,7 +358,15 @@
       <option name="project" value="LOCAL" />
       <updated>1717385080094</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="薬剤処置履歴機能＆履歴保持">
+      <option name="closed" value="true" />
+      <created>1717466551777</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1717466551778</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -387,60 +409,85 @@
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="django-line">
-          <url>file://$PROJECT_DIR$/templates/kadai1/admin/H105/phone_change.html</url>
-          <line>13</line>
-          <option name="timeStamp" value="33" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="django-line">
-          <url>file://$PROJECT_DIR$/templates/kadai1/admin/H105/phone_change.html</url>
-          <line>16</line>
-          <option name="timeStamp" value="34" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="django-line">
-          <url>file://$PROJECT_DIR$/templates/kadai1/admin/H105/phone_change.html</url>
-          <line>14</line>
-          <option name="timeStamp" value="35" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="django-line">
-          <url>file://$PROJECT_DIR$/templates/kadai1/admin/H105/phone_change.html</url>
-          <line>22</line>
-          <option name="timeStamp" value="36" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="django-line">
-          <url>file://$PROJECT_DIR$/templates/kadai1/admin/H105/phone_change.html</url>
-          <line>20</line>
-          <option name="timeStamp" value="50" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="django-line">
-          <url>file://$PROJECT_DIR$/templates/kadai1/admin/H100/hospital_table.html</url>
-          <line>13</line>
-          <option name="timeStamp" value="65" />
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/kadai1/views.py</url>
+          <line>189</line>
+          <option name="timeStamp" value="69" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/kadai1/views.py</url>
-          <line>358</line>
-          <option name="timeStamp" value="700" />
+          <line>192</line>
+          <option name="timeStamp" value="70" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/kadai1/views.py</url>
-          <line>360</line>
-          <option name="timeStamp" value="701" />
+          <line>193</line>
+          <option name="timeStamp" value="71" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/kadai1/views.py</url>
-          <line>362</line>
-          <option name="timeStamp" value="702" />
+          <line>196</line>
+          <option name="timeStamp" value="72" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/kadai1/views.py</url>
-          <line>364</line>
-          <option name="timeStamp" value="704" />
+          <line>197</line>
+          <option name="timeStamp" value="73" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/kadai1/views.py</url>
-          <line>363</line>
-          <option name="timeStamp" value="705" />
+          <line>218</line>
+          <option name="timeStamp" value="74" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/kadai1/views.py</url>
+          <line>220</line>
+          <option name="timeStamp" value="76" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/kadai1/views.py</url>
+          <line>221</line>
+          <option name="timeStamp" value="77" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/kadai1/views.py</url>
+          <line>222</line>
+          <option name="timeStamp" value="78" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/kadai1/views.py</url>
+          <line>223</line>
+          <option name="timeStamp" value="79" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/kadai1/views.py</url>
+          <line>393</line>
+          <option name="timeStamp" value="82" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/kadai1/views.py</url>
+          <line>396</line>
+          <option name="timeStamp" value="84" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/kadai1/views.py</url>
+          <line>397</line>
+          <option name="timeStamp" value="85" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/kadai1/views.py</url>
+          <line>391</line>
+          <option name="timeStamp" value="86" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/kadai1/views.py</url>
+          <line>400</line>
+          <option name="timeStamp" value="92" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/kadai1/views.py</url>
+          <line>401</line>
+          <option name="timeStamp" value="93" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>

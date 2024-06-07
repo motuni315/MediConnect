@@ -47,7 +47,11 @@
                                 <input type="hidden" name="tabyouintel" value="{{ hospital.tabyouintel }}">
                             </form> </td>
                         <td>{{ hospital.tabyouinshihonkin }}</td>
-                        <td>{{ hospital.kyukyu }}</td>
+                        <td>{% if hospital.kyukyu == 1 %}
+                                あり
+                            {% elif hospital.kyukyu == 0 %}
+                                なし
+                            {% endif %}</td>
                     
                 </tr>
             {% endfor %}

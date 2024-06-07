@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>病院登録</title>
+    <link rel="stylesheet" href="../../css/register.css">
+    <link rel="stylesheet" href="../../css/home_link.css">
+</head>
+<body>
+    <div class="container">
+        <h2>病院登録</h2>
+        <form method="post" action="{% url 'hospital_register' %}">
+            {% csrf_token %}
+      <div class="form-group">
+        <label for="hospitalid">病院ID:</label>
+        <input type="text" id="hospitalid" name="hospitalid" required>
+          <div class="form-group">
+        <label for="hospital_name">病院名:</label>
+        <input type="text" id="hospital_name" name="hospital_name" required>
+      </div>
+        <div class="form-group">
+        <label for="hospital_address">住所：</label>
+        <input type="text" id="hospital_address" name="hospital_address" required>
+      </div>
+        <div class="form-group">
+        <label for="hospital_number">電話番号:</label>
+        <input type="tel" id="hospital_number" name="hospital_number" required>
+      </div>
+      <div class="form-group">
+        <label for="capital">資本金:</label>
+        <input type="text" id="capital" name="capital" required>
+      </div>
+      <div class="form-group">
+        <label for="emergency_response">救急対応:</label>
+         <select id="emergency_response" name="emergency_response" required>
+                <option value="1">あり</option>
+                <option value="0" selected>なし</option>
+            </select><br><br>
+      </div>
+      <button type="submit">登録確認</button>
+      </div>
+    </form>
+        <a href="{% url 'index' %}" class="home-link">管理者ホームに戻る</a>
+    </div>
+
+</body>
+</html>
