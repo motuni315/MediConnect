@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>他病院一覧</title>
+    <title>仕入れ先一覧</title>
     <link rel="stylesheet" href="../../css/hospital_table.css">
     <link rel="stylesheet" href="../../css/home_link.css">
 </head>
 <body>
     <div class="container">
-        <h1>他病院一覧</h1>
+        <h1>仕入れ先一覧</h1>
         <div class="search-container">
             <form method="get" action="{% url 'capital_search' %}">
                 <label for="capital-input">資本金で検索:</label>
                 <input type="text" id="capital-input" name="capital" placeholder="資本金を入力">
-                <input type="hidden" name="search" value="0">
+                <input type="hidden" name="search" value="1">
                 <button>検索</button>
             </form>
         </div>
@@ -22,45 +22,41 @@
             <form method="get" action="{% url 'address_search' %}">
                 <label for="address-input">住所で検索:</label>
                 <input type="text" id="address-input" name="address" placeholder="住所を入力">
-                <input type="hidden" name="search" value="0">
+                <input type="hidden" name="search" value="1">
                 <button>検索</button>
             </form>
         </div>
             <table border="1">
             <thead>
                 <tr>
-                    <th>病院ID</th>
-                    <th>病院名</th>
-                    <th>住所</th>
-                    <th>電話番号</th>
+                    <th>仕入れ先ID</th>
+                    <th>仕入れ先名</th>
+                    <th>仕入れ先住所</th>
+                    <th>仕入れ先電話番号</th>
                     <th>資本金</th>
-                    <th>救急対応</th>
+                    <th>納期</th>
                 </tr>
 
 
             </thead>
-            <tbody id="hospital-list">
-            {% for hospital in hospitals %}
+            <tbody>
+            {% for shiire in shiires %}
                 <!-- ここにデータベースから読み込んだ病院データが表示されます -->
                 <tr>
                     
-                        <td>{{ hospital.tabyouinid }}</td>
-                        <td>{{ hospital.tabyouinmei }}</td>
-                        <td>{{ hospital.tabyouinaddres }}</td>
+                        <td>{{ shiire.shiireid }}</td>
+                        <td>{{ shiire.shiiremei }}</td>
+                        <td>{{ shiire.shiireaddress }}</td>
                         <td>
-                            {{ hospital.tabyouintel }}
+                            {{ shiire.shiiretel }}
                             <form action="{% url 'phone_change' %}" >
                                 {% csrf_token %}
                                 <button>変更</button>
                                 <input type="hidden" name="tabyouinid" value="{{ hospital.tabyouinid }}">
                                 <input type="hidden" name="tabyouintel" value="{{ hospital.tabyouintel }}">
                             </form> </td>
-                        <td>{{ hospital.tabyouinshihonkin }}</td>
-                        <td>{% if hospital.kyukyu == 1 %}
-                                あり
-                            {% elif hospital.kyukyu == 0 %}
-                                なし
-                            {% endif %}</td>
+                        <td>{{ shiire.shihonkin }}</td>
+                        <td>{{ shiire.nouki }}</td>
                     
                 </tr>
             {% endfor %}

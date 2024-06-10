@@ -11,8 +11,10 @@ urlpatterns = [
     path('hospital_table/', views.hospital_table, name='hospital_table'),
     path('emp_passChange/', views.emp_passChange, name='emp_passChange'),
     path('phone_change/', views.phone_change, name='phone_change'),
-    path('hospital_list/', views.hospital_list, name='hospital_list'),
+    path('capital_search/', views.capital_search, name='capital_search'),
+    path('address_search/', views.address_search, name='address_search'),
     path('hospital_register/', views.hospital_register, name='hospital_register'),
+    path('shiire_register/', views.shiire_register, name='shiire_register'),
     path('employee_list/', views.employee_list, name='employee_list'),
     path('patient_register/', views.patient_register, name='patient_register'),
     path('patient_table/', views.patient_table, name='patient_table'),
@@ -25,4 +27,7 @@ urlpatterns = [
     path('touyo_history/',views.touyo_history, name='touyo_history'),
     path('history_search/', views.history_search, name='history_search'),
     path('hospital_register_confirm/',views.hospital_register_confirm, name='hospital_register_confirm'),
+    path('shiire_register_confirm/',views.shiire_register_confirm, name='shiire_register_confirm'),
+    path('shiire_table/', views.shiire_table, name='shiire_table'),
+
 ]

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>仕入れ先情報登録確認</title>
+    <link rel="stylesheet" href="../../css/register.css">
+</head>
+<body>
+    <div class="container">
+        <h2>仕入れ先登録確認</h2>
+            <div class="confirmation">
+                <div id="confirmation-info">
+                    <p><strong>仕入れ先ID:</strong>{{ shiireid }}</p>
+                    <p><strong>仕入れ先名:</strong> {{ shiiremei }}</p>
+                    <p><strong>仕入れ先住所:</strong> {{ shiireaddress }}</p>
+                    <p><strong>仕入れ先電話番号:</strong> {{ shiiretel }}</p>
+                    <p><strong>資本金:</strong> {{ shihonkin }}</p>
+                    <p><strong>納期:</strong>{{ nouki }}</p>
+                </div>
+                 <div class="confirmation-buttons">
+                     <form method="post" action="{% url 'shiire_register_confirm' %}">
+                         {% csrf_token %}
+                        <button>登録</button>
+                     </form>
+                     <form method="get" action="{% url 'shiire_register' %}">
+                        <button>修正</button>
+                     </form>
+                </div>
+
+            </div>
+    </div>
+</body>
+</html>

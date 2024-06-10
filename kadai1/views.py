@@ -6,7 +6,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.utils import timezone
 
-from kadai1.models import Employee, Tabyouin, Patient, Medicine, Treatment
+from kadai1.models import Employee, Tabyouin, Patient, Medicine, Treatment, Shiiregyosya
 
 
 def login(request):
@@ -236,24 +236,73 @@ def normalize_capital_query(query):
     return re.sub(r'[^\d]', '', query)
 
 
-def hospital_list(request):
+def capital_search(request):
     query = request.GET.get('capital')
+    search = request.GET.get('search')
+
+    hospitals = None
+    shiires = None
+
     if query:
         try:
             # 様々な形式の入力を正規化します
             normalized_query = normalize_capital_query(query)
             if normalized_query:  # 数字が残っているか確認します
                 capital_value = int(normalized_query)
-                hospitals = Tabyouin.objects.filter(tabyouinshihonkin__gte=capital_value)
+                if search == '0':
+                    hospitals = Tabyouin.objects.filter(tabyouinshihonkin__gte=capital_value)
+                elif search == '1':
+                    shiires = Shiiregyosya.objects.filter(shihonkin__gte=capital_value)
             else:
-                hospitals = Tabyouin.objects.none()
+                if search == '0':
+                    hospitals = Tabyouin.objects.none()
+                elif search == '1':
+                    shiires = Shiiregyosya.objects.none()
         except ValueError as e:
             return HttpResponse(f'エラー: {e}')
     else:
-        hospitals = Tabyouin.objects.all()
+        if search == '0':
+            hospitals = Tabyouin.objects.all()
+        elif search == '1':
+            shiires = Shiiregyosya.objects.all()
 
-    context = {'hospitals': hospitals}
-    return render(request, '../templates/kadai1/admin/H100/hospital_table.html', context)
+    context = {'hospitals': hospitals,
+               'shiires': shiires}
+
+    if search == '0':
+        return render(request, 'kadai1/admin/H100/hospital_table.html', context)
+    elif search == '1':
+        return render(request, 'kadai1/admin/H100/shiire_table.html', context)
+
+
+def address_search(request):
+    address = request.GET.get('address')
+    search = request.GET.get('search')
+
+    hospitals = None
+    shiires = None
+
+    if address:
+        try:
+                if search == '0':
+                    hospitals = Tabyouin.objects.filter(tabyouinaddres__icontains=address)
+                elif search == '1':
+                    shiires = Shiiregyosya.objects.filter(shiireaddress__icontains=address)
+        except ValueError as e:
+            return HttpResponse(f'エラー: {e}')
+    else:
+        if search == '0':
+            hospitals = Tabyouin.objects.all()
+        elif search == '1':
+            shiires = Shiiregyosya.objects.all()
+
+    context = {'hospitals': hospitals,
+               'shiires': shiires}
+
+    if search == '0':
+        return render(request, 'kadai1/admin/H100/hospital_table.html', context)
+    elif search == '1':
+        return render(request, 'kadai1/admin/H100/shiire_table.html', context)
 
 
 def employee_list(request):
@@ -729,3 +778,79 @@ def hospital_register_confirm(request):
 
         return render(request,'kadai1/OK.html')
 
+
+def shiire_table(request):
+    if request.method == 'GET':
+        shiires = Shiiregyosya.objects.all()
+        return render(request,'kadai1/admin/H100/shiire_table.html',{'shiires':shiires})
+
+
+def shiire_register(request):
+    if request.method == 'GET':
+        return render(request, 'kadai1/admin/H100/shiire_register.html')
+    elif request.method == 'POST':
+        shiireid = request.POST.get('shiireid')
+        shiiremei = request.POST.get('shiiremei')
+        shiireaddress = request.POST.get('shiireaddress')
+        shiiretel = request.POST.get('shiiretel')
+        shihonkin = request.POST.get('shihonkin')
+        nouki = request.POST.get('nouki')
+
+        try:
+            nouki = int(nouki)  # 納期が数字の場合のみ変換
+        except ValueError:
+            return HttpResponse('エラー: 納期は数字で入力してください。')
+
+        if Shiiregyosya.objects.filter(shiireid=shiireid).exists():
+            return HttpResponse('エラー: 同じ仕入れ先IDが既に存在します。')
+        else:
+            normalized_query = normalize_capital_query(shihonkin)
+            capital_value = int(normalized_query)
+            validated_phone = validate_phone_number(shiiretel)
+
+        # セッションにデータを保存
+        request.session['shiireid'] = shiireid
+        request.session['shiiremei'] = shiiremei
+        request.session['shiireaddress'] = shiireaddress
+        request.session['shiiretel'] = shiiretel
+        request.session['shihonkin'] = shihonkin
+        request.session['nouki'] = nouki
+
+        context = {
+            'shiireid': shiireid,
+            'shiiremei': shiiremei,
+            'shiireaddress': shiireaddress,
+            'shiiretel': shiiretel,
+            'shihonkin': shihonkin,
+            'nouki': nouki
+        }
+
+        return render(request, 'kadai1/admin/H100/shiire_register_confirm.html', context)
+
+
+def shiire_register_confirm(request):
+    if request.method == 'POST':
+        shiireid = request.session.get('shiireid')
+        shiiremei = request.session.get('shiiremei')
+        shiireaddress = request.session.get('shiireaddress')
+        shiiretel = request.session.get('shiiretel')
+        shihonkin = request.session.get('shihonkin')
+        nouki = int(request.session.get('nouki'))
+
+        Shiiregyosya.objects.create(
+            shiireid=shiireid,
+            shiiremei=shiiremei,
+            shiireaddress=shiireaddress,
+            shiiretel=shiiretel,
+            shihonkin=shihonkin,
+            nouki=nouki
+        )
+
+        del request.session['shiireid']
+        del request.session['shiiremei']
+        del request.session['shiireaddress']
+        del request.session['shiiretel']
+        del request.session['shihonkin']
+        del request.session['nouki']
+
+        return render(request,'kadai1/OK.html')
