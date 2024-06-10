@@ -37,3 +37,12 @@ class Treatment(models.Model):
     medicineid = models.ForeignKey(Medicine, on_delete=models.CASCADE, related_name='treatments')
     quantity = models.IntegerField()
     impdate = models.DateField()
+
+
+class Shiiregyosya(models.Model):
+    shiireid = models.CharField(max_length=8, primary_key=True)
+    shiiremei = models.CharField(max_length=64)
+    shiireaddress = models.CharField(max_length=64)
+    shiiretel = models.CharField(max_length=13)
+    shihonkin = models.IntegerField()
+    nouki = models.IntegerField()

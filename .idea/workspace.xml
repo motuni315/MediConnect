@@ -4,19 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="534aadea-d5c4-429a-abca-55e0a1c7a8cc" name="変更" comment="薬剤処置履歴機能＆履歴保持">
+    <list default="true" id="534aadea-d5c4-429a-abca-55e0a1c7a8cc" name="変更" comment="終了">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MediConnect/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/MediConnect/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/kadai1/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/kadai1/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kadai1/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/kadai1/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/kadai1/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/kadai1/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/kadai1/admin/E103/employee_passchange.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/kadai1/admin/E103/employee_passchange.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/kadai1/admin/H100/hospital_table.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/kadai1/admin/H100/hospital_table.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/kadai1/doctor/add_medicine.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/kadai1/index/index_admin.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/kadai1/index/index_admin.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/kadai1/other/hopital_register_confirm.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/kadai1/admin/H100/hopital_register_confirm.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/kadai1/other/hospital_register.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/kadai1/admin/H100/hospital_register.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/kadai1/reception/P104/insurance_change.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/kadai1/reception/P104/insurance_change.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,6 +15,10 @@
   </component>
   <component name="DjangoConsoleOptions" custom-start-script="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)">
     <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
+  </component>
+  <component name="ExportToHTMLSettings">
+    <option name="printScope" value="4" />
+    <option name="OUTPUT_DIRECTORY" value="$PROJECT_DIR$/exportToHTML" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -172,7 +166,8 @@
       <workItem from="1717560507985" duration="4021000" />
       <workItem from="1717565703617" duration="1662000" />
       <workItem from="1717641355003" duration="300000" />
-      <workItem from="1717643234564" duration="3087000" />
+      <workItem from="1717643234564" duration="3797000" />
+      <workItem from="1717979534445" duration="4634000" />
     </task>
     <task id="LOCAL-00001" summary="初期設定">
       <option name="closed" value="true" />
@@ -366,7 +361,15 @@
       <option name="project" value="LOCAL" />
       <updated>1717466551778</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="終了">
+      <option name="closed" value="true" />
+      <created>1717734774933</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1717734774933</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -404,7 +407,8 @@
     <MESSAGE value="薬剤投与削除・追加機能" />
     <MESSAGE value="薬剤処置確定機能" />
     <MESSAGE value="薬剤処置履歴機能＆履歴保持" />
-    <option name="LAST_COMMIT_MESSAGE" value="薬剤処置履歴機能＆履歴保持" />
+    <MESSAGE value="終了" />
+    <option name="LAST_COMMIT_MESSAGE" value="終了" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
