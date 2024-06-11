@@ -29,5 +29,8 @@ urlpatterns = [
     path('hospital_register_confirm/',views.hospital_register_confirm, name='hospital_register_confirm'),
     path('shiire_register_confirm/',views.shiire_register_confirm, name='shiire_register_confirm'),
     path('shiire_table/', views.shiire_table, name='shiire_table'),
+    path('employee_name_change/', views.employee_name_change, name='employee_name_change'),
+    path('name_change_confirm/',views.name_change_confirm, name='name_change_confirm'),
+    path('check_insurance_expiry/',views.check_insurance_expiry, name='check_insurance_expiry'),
 
 ]

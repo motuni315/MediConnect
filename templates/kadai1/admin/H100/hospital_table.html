@@ -53,7 +53,9 @@
                                 {% csrf_token %}
                                 <button>変更</button>
                                 <input type="hidden" name="tabyouinid" value="{{ hospital.tabyouinid }}">
+                                <input type="hidden" name="tabyouinmei" value="{{ hospital.tabyouinmei }}">
                                 <input type="hidden" name="tabyouintel" value="{{ hospital.tabyouintel }}">
+                                <input type="hidden" name="search" value="1">
                             </form> </td>
                         <td>{{ hospital.tabyouinshihonkin }}</td>
                         <td>{% if hospital.kyukyu == 1 %}

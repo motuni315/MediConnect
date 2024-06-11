@@ -15,6 +15,13 @@
                 <button>検索</button>
             </form>
         </div>
+    <div class="search-container">
+            <form method="get" action="{% url 'check_insurance_expiry' %}">
+                <label for="patient_search">有効期限切れ検索:</label>
+                <button>検索</button><br>
+                <button name="all" value="all">全件表示</button>
+            </form>
+        </div>
 
             <table border="1">
             <thead>

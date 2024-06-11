@@ -206,21 +206,52 @@ def validate_phone_number(phone):
 
 def phone_change(request):
     if request.method == 'GET':
-        tabyouinid = request.GET['tabyouinid']
-        tabyouintel = request.GET['tabyouintel']
-        return render(request, 'kadai1/admin/H105/phone_change.html', {'tabyouinid': tabyouinid, 'tabyouintel': tabyouintel})
+        search = int(request.GET['search'])
+        request.session['search'] = search
+
+        if search == 1:
+            tabyouinid = request.GET['tabyouinid']
+            tabyouinmei = request.GET['tabyouinmei']
+            tabyouintel = request.GET['tabyouintel']
+            context = {
+                'tabyouinid': tabyouinid,
+                'tabyouinmei': tabyouinmei,
+                'tabyouintel': tabyouintel
+            }
+            return render(request, 'kadai1/admin/H105/phone_change.html',context)
+        elif search == 0:
+            shiireid = request.GET['shiireid']
+            shiiremei = request.GET['shiiremei']
+            shiiretel = request.GET['shiiretel']
+            context = {
+                'shiireid': shiireid,
+                'shiiremei': shiiremei,
+                'shiiretel': shiiretel
+            }
+            return render(request, 'kadai1/admin/H105/phone_change.html',context)
 
     if request.method == 'POST':
-        hospital_id = request.POST.get('tabyouinid')
-        hospital_phone = request.POST.get('newPhoneNumber')
+        search = request.session.get('search')
+
+        if search == 1:
+            hospital_id = request.POST.get('tabyouinid')
+            phone = request.POST.get('newPhoneNumber')
+        elif search == 0:
+            shiire_id = request.POST.get('shiireid')
+            phone = request.POST.get('newPhoneNumber')
 
         try:
             # 電話番号のバリデーション
-            validated_phone = validate_phone_number(hospital_phone)
+            validated_phone = validate_phone_number(phone)
 
-            hospital = Tabyouin.objects.get(tabyouinid=hospital_id)
-            hospital.tabyouintel = validated_phone
-            hospital.save()
+            if search == 1:
+                hospital = Tabyouin.objects.get(tabyouinid=hospital_id)
+                hospital.tabyouintel = validated_phone
+                hospital.save()
+            elif search == 0:
+                shiire = Shiiregyosya.objects.get(shiireid=shiire_id)
+                shiire.shiiretel = validated_phone
+                shiire.save()
             return render(request, 'kadai1/OK.html')
         except ValueError as ve:
             return HttpResponse(f"エラー: {ve}")
@@ -284,10 +315,10 @@ def address_search(request):
 
     if address:
         try:
-                if search == '0':
-                    hospitals = Tabyouin.objects.filter(tabyouinaddres__icontains=address)
-                elif search == '1':
-                    shiires = Shiiregyosya.objects.filter(shiireaddress__icontains=address)
+            if search == '0':
+                hospitals = Tabyouin.objects.filter(tabyouinaddres__icontains=address)
+            elif search == '1':
+                shiires = Shiiregyosya.objects.filter(shiireaddress__icontains=address)
         except ValueError as e:
             return HttpResponse(f'エラー: {e}')
     else:
@@ -406,7 +437,6 @@ def validate_expiry_date(new_date, current_date):
 
     return new_date_obj
 
-
     return new_date_obj
 
 
@@ -467,7 +497,7 @@ def insurance_change(request):
             except Patient.DoesNotExist:
                 return HttpResponse('IDが見つかりません')
             except ValueError as e:
-                    return HttpResponse(f'エラー: {e}')
+                return HttpResponse(f'エラー: {e}')
 
 
 def patient_medicine_touyo(request):
@@ -705,7 +735,7 @@ def history_search(request):
     else:
         patients = Patient.objects.none()  # クエリがない場合は空のクエリセットを返す
 
-    context ={
+    context = {
         'patients': patients,
         'updated_treatments': updated_treatments
     }
@@ -714,7 +744,7 @@ def history_search(request):
 
 def hospital_register(request):
     if request.method == 'GET':
-        return render(request,'kadai1/admin/H100/hospital_register.html')
+        return render(request, 'kadai1/admin/H100/hospital_register.html')
     if request.method == 'POST':
         hospitalid = request.POST.get('hospitalid')
         hospital_name = request.POST.get('hospital_name')
@@ -776,13 +806,13 @@ def hospital_register_confirm(request):
         del request.session['capital']
         del request.session['emergency_response']
 
-        return render(request,'kadai1/OK.html')
+        return render(request, 'kadai1/OK.html')
 
 
 def shiire_table(request):
     if request.method == 'GET':
         shiires = Shiiregyosya.objects.all()
-        return render(request,'kadai1/admin/H100/shiire_table.html',{'shiires':shiires})
+        return render(request, 'kadai1/admin/H100/shiire_table.html', {'shiires': shiires})
 
 
 def shiire_register(request):
@@ -853,4 +883,64 @@ def shiire_register_confirm(request):
         del request.session['shihonkin']
         del request.session['nouki']
 
-        return render(request,'kadai1/OK.html')
+        return render(request, 'kadai1/OK.html')
+
+
+def employee_name_change(request):
+    if request.method == 'GET':
+        empid = request.GET.get('empid')
+        empfname = request.GET.get('empfname')
+        emplname = request.GET.get('emplname')
+
+        request.session['empid'] = empid
+        request.session['empfname'] = empfname
+        request.session['emplname'] = emplname
+
+        context = {
+            'empid': empid,
+            'empfname': empfname,
+            'emplname': emplname
+        }
+        return render(request, 'kadai1/admin/E103/employee_name_change.html', context)
+
+    elif request.method == 'POST':
+        empid = request.session.get('empid')
+        empfname = request.session.get('empfname')
+        emplname = request.session.get('emplname')
+        new_empfname = request.POST.get('new_empfname')
+        new_emplname = request.POST.get('new_emplname')
+
+        context = {
+            'empid': empid,
+            'empfname': empfname,
+            'emplname': emplname,
+            'new_empfname': new_empfname,
+            'new_emplname': new_emplname
+        }
+        return render(request, 'kadai1/admin/E103/name_change_confirm.html', context)
+
+
+def name_change_confirm(request):
+    empid = request.session.get('empid')
+    new_empfname = request.GET.get('new_empfname')
+    new_emplname = request.GET.get('new_emplname')
+
+    employee = Employee.objects.get(empid=empid)
+    employee.empfname = new_empfname
+    employee.emplname = new_emplname
+    employee.save()
+
+    return render(request,'kadai1/OK.html')
+
+
+def check_insurance_expiry(request):
+    all = request.GET.get('all')
+    expired_patients = Patient.objects.filter(hokenexp__lt=timezone.now())
+
+    if all:
+        expired_patients = Patient.objects.all()
+    context = {
+        'patients': expired_patients,
+    }
+
+    return render(request, 'kadai1/reception/P103/patient_table.html', context)

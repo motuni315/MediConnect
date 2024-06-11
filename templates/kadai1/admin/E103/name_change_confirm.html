@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>氏名変更確認</title>
+</head>
+<body>
+<h1>氏名変更確認</h1>
+<form method="get" action="{% url 'name_change_confirm' %}">
+    従業員ID：{{ empid }}<br><br>
+    姓：{{ new_empfname }}<br><br>
+    名：{{ new_emplname }}<br><br>
+    <input type="hidden" name="new_empfname" value="{{ new_empfname }}">
+    <input type="hidden" name="new_emplname" value="{{ new_emplname }}">
+    <button>変更</button>
+</form>
+
+</body>
+</html>

@@ -22,8 +22,7 @@
             <thead>
                 <tr>
                     <th>ユーザーID</th>
-                    <th>姓</th>
-                    <th>名</th>
+                    <th>氏名</th>
                     <th>パスワード</th>
                     <th>役職</th>
                 </tr>
@@ -34,8 +33,13 @@
                 {% for employee in employees %}
                 <tr>
                     <td>{{ employee.empid }}</td>
-                    <td>{{ employee.empfname }}</td>
-                    <td>{{ employee.emplname }}</td>
+                    <td>{{ employee.empfname }} {{ employee.emplname }}
+                        <form method="get" action="{% url 'employee_name_change' %}">
+                            <button class="change-button">変更</button>
+                            <input type="hidden" name="empid" value="{{ employee.empid }}">
+                            <input type="hidden" name="empfname" value="{{ employee.empfname }}">
+                            <input type="hidden" name="emplname" value="{{ employee.emplname }}">
+                        </form>  </td>
                     <td>{{ employee.emppasswd }}
                         <form method="get" action="{% url 'emp_passChange' %}">
                             <button class="change-button">変更</button>

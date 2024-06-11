@@ -12,19 +12,35 @@
         <h2>電話番号変更</h2>
         <form action="#" method="post">
             {% csrf_token %}
-            病院名：{{ tabyouinid }}<br><br>
-            
-            現在の電話番号:{{ tabyouintel }}<br><br>
-
-            <label for="newPhoneNumber">新しい電話番号:</label>
-            <input type="text" id="newPhoneNumber" name="newPhoneNumber" required>
-            <form method="post" action="{% url 'phone_change' %}">
-                <button>変更</button>
-                <input type="hidden" name ="tabyouinid" value="{{ tabyouinid }}">
-                <input type="hidden" name="tabyouintel" value="{{ tabyouintel }}">
-            </form>
+            {% if request.session.search == 1 %}
+                病院名：{{ tabyouinmei }}<br><br>
+                
+                現在の電話番号:{{ tabyouintel }}<br><br>
+    
+                <label for="newPhoneNumber">新しい電話番号:</label>
+                <input type="text" id="newPhoneNumber" name="newPhoneNumber" required>
+                <form method="post" action="{% url 'phone_change' %}">
+                    <button>変更</button>
+                    <input type="hidden" name ="tabyouinid" value="{{ tabyouinid }}">
+                    <input type="hidden" name="tabyouintel" value="{{ tabyouintel }}">
+                </form>
+            {% elif request.session.search == 0 %}
+                仕入れ先名：{{ shiiremei }}<br><br>
+                現在の電話番号：{{ shiiretel }}<br><br>
+                 <label for="newPhoneNumber">新しい電話番号:</label>
+                    <input type="text" id="newPhoneNumber" name="newPhoneNumber" required>
+                <form method="post" action="{% url 'phone_change' %}">
+                    <button>変更</button>
+                    <input type="hidden" name ="shiireid" value="{{ shiireid }}">
+                    <input type="hidden" name="shiiretel" value="{{ shiiretel }}">
+                </form>
+            {% endif %}
         </form>
-        <a href="{% url 'hospital_table' %}" class="home-link">病院一覧に戻る</a>
+        {% if request.session.search == 1 %}
+            <a href="{% url 'hospital_table' %}" class="home-link">病院一覧に戻る</a>
+        {% elif request.session.search == 0 %}
+            <a href="{% url 'shiire_table' %}" class="home-link">仕入れ先一覧に戻る</a>
+        {% endif %}
     </div>
 </body>
 </html>

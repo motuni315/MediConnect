@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>氏名変更</title>
+</head>
+<body>
+<h1>氏名変更</h1>
+
+<form method="post" action="{% url 'employee_name_change' %}">
+    {% csrf_token %}
+    従業員ID：{{ empid }}<br><br>
+    現在の姓：{{ empfname }}<br>
+    新しい姓：<input type="text" name="new_empfname" required><br><br>
+    現在の名：{{ emplname }}<br>
+    新しい名：<input type="text" name="new_emplname" required><br><br>
+    
+    <button>変更確認</button>
+</form>
+
+</body>
+</html>
