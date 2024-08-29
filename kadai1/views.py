@@ -102,6 +102,9 @@ def confilm_register(request):
         patid = request.POST['patid']
         patfname = request.POST['patfname']
         patlname = request.POST['patlname']
+        birthday = request.POST['birthday']
+        gender = request.POST['gender']
+        pataddress = request.POST['pataddress']
         hokenmei = request.POST['hokenmei']
         hokenexp = request.POST['hokenexp']
 
@@ -109,8 +112,11 @@ def confilm_register(request):
             patid=patid,
             patfname=patfname,
             patlname=patlname,
+            birthday=birthday,
+            gender=gender,
+            address=pataddress,
             hokenmei=hokenmei,
-            hokenexp=hokenexp
+            hokenexp=hokenexp,
 
         )
 
@@ -218,7 +224,7 @@ def phone_change(request):
                 'tabyouinmei': tabyouinmei,
                 'tabyouintel': tabyouintel
             }
-            return render(request, 'kadai1/admin/H105/phone_change.html',context)
+            return render(request, 'kadai1/admin/H105/phone_change.html', context)
         elif search == 0:
             shiireid = request.GET['shiireid']
             shiiremei = request.GET['shiiremei']
@@ -228,7 +234,7 @@ def phone_change(request):
                 'shiiremei': shiiremei,
                 'shiiretel': shiiretel
             }
-            return render(request, 'kadai1/admin/H105/phone_change.html',context)
+            return render(request, 'kadai1/admin/H105/phone_change.html', context)
 
     if request.method == 'POST':
         search = request.session.get('search')
@@ -380,8 +386,9 @@ def validate_card_number(card_number):
 
 def validate_date(date_str):
     try:
+        # 日付文字列を日付オブジェクトに変換
         date_obj = datetime.strptime(date_str, '%Y-%m-%d')
-        return date_obj.date()
+        return date_obj.strftime('%Y-%m-%d')
     except ValueError:
         raise ValueError('有効期限は正しい日付形式(YYYY-MM-DD)で入力してください。')
 
@@ -390,29 +397,40 @@ def patient_register(request):
     if request.method == 'GET':
         return render(request, 'kadai1/reception/P101/patient_register.html')
     elif request.method == 'POST':
+        # POSTリクエストからデータを取得
         pid = request.POST['pid']
         patsname = request.POST['surname']
         patfname = request.POST['first-name']
+        birthday = request.POST['birthday']
+        gender = request.POST['gender']
+        pataddress = request.POST['pataddress']
         insurance_card_number = request.POST['insurance_card_number']
         date_expiry = request.POST['date-expiry']
 
         try:
+            # カード番号と有効期限をバリデーション
             validated_card_number = validate_card_number(insurance_card_number)
             validated_date_expiry = validate_date(date_expiry)
         except ValueError as e:
             return HttpResponse(f'エラー: {e}')
 
+        # テンプレートに渡すコンテキストを作成
         context = {
             'pid': pid,
             'surname': patsname,
             'first_name': patfname,
+            'birthday': birthday,
+            'gender': gender,
+            'pataddress': pataddress,
             'insurance_card_number': validated_card_number,
             'date_expiry': validated_date_expiry
         }
 
+        # 患者IDがすでに存在する場合はエラーを返す
         if Patient.objects.filter(patid=pid).exists():
             return HttpResponse('すでに登録したIDと一致しています')
 
+        # 登録確認画面にコンテキストを渡してレンダリング
         return render(request, 'kadai1/reception/P101/patient_register_confirm.html', context)
 
 
@@ -930,7 +948,7 @@ def name_change_confirm(request):
     employee.emplname = new_emplname
     employee.save()
 
-    return render(request,'kadai1/OK.html')
+    return render(request, 'kadai1/OK.html')
 
 
 def check_insurance_expiry(request):
@@ -944,3 +962,27 @@ def check_insurance_expiry(request):
     }
 
     return render(request, 'kadai1/reception/P103/patient_table.html', context)
+
+
+def medical_records(request):
+    if request.method == 'GET':
+        patid = request.GET.get('patid')
+        patfname = request.GET.get('patfname')
+        patlname = request.GET.get('patlname')
+        hokenmei = request.GET.get('hokenmei')
+        hokenexp = request.GET.get('hokenexp')
+        birthday = request.GET.get('birthday')
+        gender = request.GET.get('gender')
+        address = request.GET.get('address')
+
+        context = {
+            'patid': patid,
+            'patfname': patfname,
+            'patlname': patlname,
+            'hokenmei': hokenmei,
+            'hokenexp': hokenexp,
+            'birthday': birthday,
+            'gender': gender,
+            'address': address
+        }
+        return render(request, 'kadai1/addition/medical_record.html',context)

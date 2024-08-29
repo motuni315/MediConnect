@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 
 class Tabyouin(models.Model):
@@ -24,6 +25,9 @@ class Patient(models.Model):
     patlname = models.CharField(max_length=64)
     hokenmei = models.CharField(max_length=64)
     hokenexp = models.DateField()
+    birthday = models.DateField(default='2000-01-01')  # 生年月日
+    gender = models.CharField(max_length=10,default="NULL")  # 性別
+    address = models.CharField(max_length=64,default="NULL")  # 住所
 
 
 class Medicine(models.Model):

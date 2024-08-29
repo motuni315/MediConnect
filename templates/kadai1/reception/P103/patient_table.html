@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,6 +16,7 @@
                 <button>検索</button>
             </form>
         </div>
+    {% if request.session.emprole == 2 %}
     <div class="search-container">
             <form method="get" action="{% url 'check_insurance_expiry' %}">
                 <label for="patient_search">有効期限切れ検索:</label>
@@ -22,6 +24,7 @@
                 <button name="all" value="all">全件表示</button>
             </form>
         </div>
+    {% endif %}
 
             <table border="1">
             <thead>
@@ -29,10 +32,7 @@
                     <th>患者ID</th>
                     <th>姓</th>
                     <th>名</th>
-                    {% if request.session.emprole == 2 %}
-                        <th>保険証名記号番号</th>
-                        <th>有効期限</th>
-                    {% endif %}
+                    <th>患者情報</th>
                     {% if request.session.emprole == 1 %}
                         <th>薬剤情報</th>
                     {% endif %}
@@ -46,29 +46,18 @@
                     <td>{{ patient.patid }}</td>
                     <td>{{ patient.patfname }}</td>
                     <td>{{ patient.patlname }}</td>
-                    {% if request.session.emprole == 2 %}
-                    <td>{{ patient.hokenmei }}
-                        <form method="get" action="{% url 'insurance_change' %}">
-                            {% csrf_token %}
-                            <button class="change-button">変更</button>
-                            <input type="hidden" name="patid" value="{{ patient.patid }}">
-                            <input type="hidden" name="hokenmei" value="{{ patient.hokenmei }}">
-                            <input type="hidden" name="hokenexp" value="{{ patient.hokenexp }}">
-                            <input type="hidden" name="check" value=0>
-                        </form>
-                    </td>
                     <td>
-                        {{ patient.hokenexp }}
-                        
-                        <form method="get" action="{% url 'insurance_change' %}">
-                            {% csrf_token %}
-                            <button class="change-button">変更</button>
+                        <form method="get" action="{% url 'medical_records' %}">
+                            <button>カルテ</button>
                             <input type="hidden" name="patid" value="{{ patient.patid }}">
+                            <input type="hidden" name="patfname" value="{{ patient.patfname }}">
+                            <input type="hidden" name="patlname" value="{{ patient.patlname }}">
                             <input type="hidden" name="hokenmei" value="{{ patient.hokenmei }}">
                             <input type="hidden" name="hokenexp" value="{{ patient.hokenexp }}">
-                            <input type="hidden" name="check" value=1>
-                        </form> 
-                        {% endif %}
+                            <input type="hidden" name="birthday" value="{{ patient.birthday }}">
+                            <input type="hidden" name="gender" value="{{ patient.gender }}">
+                            <input type="hidden" name="address" value="{{ patient.address }}">
+                        </form>
                     </td>
                     {% if request.session.emprole == 1 %}
                         <td>
@@ -80,6 +69,7 @@
                             </form>
                         </td>
                     {% endif %}
+                    
                 </tr>
                 {% endfor %}
             </tbody>
